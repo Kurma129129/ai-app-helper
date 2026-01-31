@@ -1468,7 +1468,7 @@ Please provide:
     };
 
     // Agent View (with connected context)
-    const AgentView = ({ agent, project, updateProject, skillLevel, apiKey, setCurrentView }) => {
+    const AgentView = ({ agent, project, updateProject, skillLevel, setCurrentView }) => {
       const [formData, setFormData] = useState({});
       const [response, setResponse] = useState(project.context?.[agent.id] || '');
       const [loading, setLoading] = useState(false);
@@ -1480,15 +1480,6 @@ Please provide:
       };
 
       const handleSubmit = async () => {
-        if (!apiKey) {
-          setError('Please add your Anthropic API key in Settings first.');
-          return;
-        }
-        if (!apiKey.startsWith('sk-ant-')) {
-          setError('Invalid API key format. Keys start with "sk-ant-"');
-          return;
-        }
-
         setLoading(true);
         setError('');
         setResponse('');
@@ -1500,14 +1491,11 @@ Please provide:
         const apiUrl = '/api/messages';
 
         try {
-          const headers = {
-            'Content-Type': 'application/json',
-            'x-api-key': apiKey,
-          };
-
           const res = await fetch(apiUrl, {
             method: 'POST',
-            headers,
+            headers: {
+              'Content-Type': 'application/json',
+            },
             body: JSON.stringify({
               model: 'claude-sonnet-4-20250514',
               max_tokens: 4096,
@@ -1798,16 +1786,7 @@ Please provide:
     };
 
     // Settings View
-    const SettingsView = ({ apiKey, setApiKey, skillLevel, setSkillLevel }) => {
-      const [tempKey, setTempKey] = useState(apiKey);
-      const [saved, setSaved] = useState(false);
-
-      const handleSave = () => {
-        setApiKey(tempKey);
-        setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
-      };
-
+    const SettingsView = ({ skillLevel, setSkillLevel }) => {
       return (
         <div>
           <div className="animate-fade-in">
@@ -1816,26 +1795,7 @@ Please provide:
           </div>
 
           <div style={{ maxWidth: '600px' }}>
-            <div style={{ ...styles.card, marginBottom: '24px' }} className="animate-fade-in stagger-1">
-              <h3 style={{ ...styles.h2, marginBottom: '16px' }}>API Configuration</h3>
-              <Input label="Anthropic API Key" type="password" placeholder="sk-ant-..." value={tempKey} onChange={setTempKey} />
-              <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginBottom: '16px' }}>
-                Your API key is stored locally.{' '}
-                <a href="https://console.anthropic.com" target="_blank" rel="noopener noreferrer" style={{ color: 'var(--accent)' }}>
-                  Get your key
-                </a>
-              </p>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <Button variant="primary" onClick={handleSave}>Save API Key</Button>
-                {saved && (
-                  <span style={{ color: 'var(--success)', fontSize: '14px', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                    <Icons.Check /> Saved
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div style={styles.card} className="animate-fade-in stagger-2">
+            <div style={styles.card} className="animate-fade-in stagger-1">
               <h3 style={{ ...styles.h2, marginBottom: '8px' }}>Skill Level</h3>
               <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px' }}>
                 Affects how detailed the AI explanations will be
@@ -1854,16 +1814,13 @@ Please provide:
       const [user, setUser] = useState(null);
       const [currentView, setCurrentView] = useState('dashboard');
       const [skillLevel, setSkillLevel] = useState('intermediate');
-      const [apiKey, setApiKey] = useState('');
       const [projects, setProjects] = useState([]);
       const [currentProject, setCurrentProject] = useState(null);
 
       // Load from localStorage
       useEffect(() => {
-        const storedApiKey = localStorage.getItem('ai-app-helper-api-key');
         const storedSkillLevel = localStorage.getItem('ai-app-helper-skill-level');
         const storedProjects = localStorage.getItem('ai-app-helper-projects');
-        if (storedApiKey) setApiKey(storedApiKey);
         if (storedSkillLevel) setSkillLevel(storedSkillLevel);
         if (storedProjects) {
           const parsed = JSON.parse(storedProjects);
@@ -1872,10 +1829,6 @@ Please provide:
       }, []);
 
       // Save to localStorage
-      useEffect(() => {
-        if (apiKey) localStorage.setItem('ai-app-helper-api-key', apiKey);
-      }, [apiKey]);
-
       useEffect(() => {
         localStorage.setItem('ai-app-helper-skill-level', skillLevel);
       }, [skillLevel]);
@@ -1956,8 +1909,6 @@ Please provide:
 
               {currentView === 'settings' && (
                 <SettingsView
-                  apiKey={apiKey}
-                  setApiKey={setApiKey}
                   skillLevel={skillLevel}
                   setSkillLevel={setSkillLevel}
                 />
@@ -1969,7 +1920,6 @@ Please provide:
                   project={currentProject}
                   updateProject={updateProject}
                   skillLevel={skillLevel}
-                  apiKey={apiKey}
                   setCurrentView={setCurrentView}
                 />
               )}
