@@ -1,0 +1,13 @@
+{
+  "name": "ai-app-design-helper",
+  "version": "1.0.0",
+  "description": "AI-powered app design and development assistant",
+  "private": true,
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step required'",
+    "start": "vercel dev"
+  },
+  "keywords": ["ai", "app", "design", "helper", "claude", "anthropic"],
+  "license": "MIT"
+}
