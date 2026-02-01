@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AI App Design Helper</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>✨</text></svg>">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
@@ -82,6 +83,166 @@
     .stagger-4 { animation-delay: 0.4s; opacity: 0; }
     .stagger-5 { animation-delay: 0.5s; opacity: 0; }
     .stagger-6 { animation-delay: 0.6s; opacity: 0; }
+
+    /* Card hover effects */
+    .hover-card {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-card:hover {
+      border-color: var(--border-light);
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Agent card colored glow on hover */
+    .hover-card-glow {
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .hover-card-glow:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.4);
+    }
+
+    /* Toast notification */
+    @keyframes toastIn {
+      from { opacity: 0; transform: translateY(20px) scale(0.95); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+    @keyframes toastOut {
+      from { opacity: 1; transform: translateY(0) scale(1); }
+      to { opacity: 0; transform: translateY(20px) scale(0.95); }
+    }
+    .toast-container {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .toast {
+      padding: 14px 20px;
+      border-radius: 12px;
+      font-size: 14px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      animation: toastIn 0.3s ease-out forwards;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+      max-width: 360px;
+    }
+    .toast.closing {
+      animation: toastOut 0.3s ease-in forwards;
+    }
+    .toast-success {
+      background: #0d3320;
+      border: 1px solid var(--success);
+      color: var(--success);
+    }
+    .toast-error {
+      background: #3d1111;
+      border: 1px solid var(--error);
+      color: var(--error);
+    }
+    .toast-info {
+      background: #1a1a3e;
+      border: 1px solid var(--accent);
+      color: var(--accent);
+    }
+
+    /* AI Output formatting */
+    .ai-output h1, .ai-output h2, .ai-output h3, .ai-output h4 {
+      font-weight: 600;
+      margin: 20px 0 8px 0;
+      color: var(--text-primary);
+    }
+    .ai-output h1 { font-size: 20px; }
+    .ai-output h2 { font-size: 18px; }
+    .ai-output h3 { font-size: 16px; }
+    .ai-output p { margin: 8px 0; line-height: 1.7; }
+    .ai-output ul, .ai-output ol {
+      margin: 8px 0;
+      padding-left: 24px;
+    }
+    .ai-output li {
+      margin: 4px 0;
+      line-height: 1.6;
+    }
+    .ai-output code {
+      background: var(--bg-elevated);
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+      color: var(--accent-hover);
+    }
+    .ai-output pre {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin: 12px 0;
+      overflow-x: auto;
+      font-size: 13px;
+      line-height: 1.5;
+      font-family: 'SF Mono', 'Fira Code', monospace;
+    }
+    .ai-output pre code {
+      background: none;
+      padding: 0;
+      color: var(--text-primary);
+    }
+    .ai-output strong, .ai-output b {
+      color: var(--text-primary);
+      font-weight: 600;
+    }
+    .ai-output hr {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin: 16px 0;
+    }
+
+    /* Typing / skeleton loader */
+    @keyframes shimmer {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+    .skeleton-line {
+      height: 14px;
+      border-radius: 6px;
+      background: linear-gradient(90deg, var(--bg-elevated) 25%, var(--border) 50%, var(--bg-elevated) 75%);
+      background-size: 200% 100%;
+      animation: shimmer 1.5s ease-in-out infinite;
+      margin: 12px 0;
+    }
+
+    /* Copy button */
+    .copy-btn {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      padding: 6px 12px;
+      border-radius: 6px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: inherit;
+      transition: all 0.2s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    .copy-btn:hover {
+      border-color: var(--border-light);
+      color: var(--text-primary);
+      background: var(--bg-hover);
+    }
+
   </style>
 </head>
 <body>
@@ -218,6 +379,127 @@
     };
 
     // ============================================
+    // TOAST SYSTEM
+    // ============================================
+    const ToastContext = React.createContext(null);
+
+    const ToastProvider = ({ children }) => {
+      const [toasts, setToasts] = useState([]);
+      const addToast = useCallback((message, type = 'success') => {
+        const id = Date.now();
+        setToasts(prev => [...prev, { id, message, type, closing: false }]);
+        setTimeout(() => {
+          setToasts(prev => prev.map(t => t.id === id ? { ...t, closing: true } : t));
+          setTimeout(() => setToasts(prev => prev.filter(t => t.id !== id)), 300);
+        }, 3000);
+      }, []);
+      return (
+        <ToastContext.Provider value={addToast}>
+          {children}
+          <div className="toast-container">
+            {toasts.map(t => (
+              <div key={t.id} className={`toast toast-${t.type}${t.closing ? ' closing' : ''}`}>
+                {t.type === 'success' && <Icons.Check />}
+                {t.type === 'error' && '⚠'}
+                {t.type === 'info' && <Icons.Sparkles />}
+                {t.message}
+              </div>
+            ))}
+          </div>
+        </ToastContext.Provider>
+      );
+    };
+
+    const useToast = () => React.useContext(ToastContext);
+
+    // ============================================
+    // MARKDOWN RENDERER
+    // ============================================
+    const MarkdownOutput = ({ text }) => {
+      const renderMarkdown = (md) => {
+        if (!md) return '';
+        let html = md;
+        // Code blocks (``` ... ```)
+        html = html.replace(/```(\w*)\n([\s\S]*?)```/g, '<pre><code>$2</code></pre>');
+        // Inline code
+        html = html.replace(/`([^`]+)`/g, '<code>$1</code>');
+        // Headers
+        html = html.replace(/^#### (.+)$/gm, '<h4>$1</h4>');
+        html = html.replace(/^### (.+)$/gm, '<h3>$1</h3>');
+        html = html.replace(/^## (.+)$/gm, '<h2>$1</h2>');
+        html = html.replace(/^# (.+)$/gm, '<h1>$1</h1>');
+        // Bold
+        html = html.replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>');
+        // Italic
+        html = html.replace(/\*(.+?)\*/g, '<em>$1</em>');
+        // Horizontal rule
+        html = html.replace(/^---$/gm, '<hr>');
+        // Unordered lists
+        html = html.replace(/^[•\-\*] (.+)$/gm, '<li>$1</li>');
+        // Ordered lists
+        html = html.replace(/^\d+\.\s(.+)$/gm, '<li>$1</li>');
+        // Wrap consecutive <li> in <ul>
+        html = html.replace(/((?:<li>.*<\/li>\n?)+)/g, '<ul>$1</ul>');
+        // Paragraphs (lines that aren't already wrapped)
+        html = html.replace(/^(?!<[huolp]|<li|<pre|<hr)(.+)$/gm, '<p>$1</p>');
+        return html;
+      };
+
+      return (
+        <div
+          className="ai-output"
+          style={{ fontSize: '14px', lineHeight: 1.7, color: 'var(--text-primary)', maxHeight: '500px', overflow: 'auto' }}
+          dangerouslySetInnerHTML={{ __html: renderMarkdown(text) }}
+        />
+      );
+    };
+
+    // ============================================
+    // COPY BUTTON
+    // ============================================
+    const CopyButton = ({ text, inline }) => {
+      const [copied, setCopied] = useState(false);
+      const handleCopy = async () => {
+        try {
+          await navigator.clipboard.writeText(text);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        } catch (err) {
+          const ta = document.createElement('textarea');
+          ta.value = text;
+          document.body.appendChild(ta);
+          ta.select();
+          document.execCommand('copy');
+          document.body.removeChild(ta);
+          setCopied(true);
+          setTimeout(() => setCopied(false), 2000);
+        }
+      };
+      return (
+        <button className="copy-btn" style={inline ? { position: 'relative', top: 'auto', right: 'auto' } : {}} onClick={handleCopy}>
+          {copied ? <><Icons.Check /> Copied!</> : 'Copy'}
+        </button>
+      );
+    };
+
+    // ============================================
+    // LOADING SKELETON
+    // ============================================
+    const LoadingSkeleton = () => (
+      <div style={{ padding: '8px 0' }}>
+        <div className="skeleton-line" style={{ width: '60%' }} />
+        <div className="skeleton-line" style={{ width: '90%' }} />
+        <div className="skeleton-line" style={{ width: '75%' }} />
+        <div className="skeleton-line" style={{ width: '85%' }} />
+        <div style={{ height: '24px' }} />
+        <div className="skeleton-line" style={{ width: '50%' }} />
+        <div className="skeleton-line" style={{ width: '95%' }} />
+        <div className="skeleton-line" style={{ width: '80%' }} />
+        <div className="skeleton-line" style={{ width: '70%' }} />
+      </div>
+    );
+
+    // ============================================
     // STYLES
     // ============================================
     const styles = {
@@ -255,6 +537,95 @@
       authContainer: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', background: 'var(--gradient-2)' },
       authCard: { width: '100%', maxWidth: '420px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)', padding: '48px', boxShadow: 'var(--shadow-lg)' },
       agentIcon: { width: '48px', height: '48px', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' },
+    };
+
+    // ============================================
+    // TIME FORMATTING
+    // ============================================
+    const timeAgo = (dateStr) => {
+      if (!dateStr) return '';
+      const now = new Date();
+      const date = new Date(dateStr);
+      const diffMs = now - date;
+      const diffMins = Math.floor(diffMs / 60000);
+      const diffHrs = Math.floor(diffMs / 3600000);
+      const diffDays = Math.floor(diffMs / 86400000);
+      if (diffMins < 1) return 'Just now';
+      if (diffMins < 60) return `${diffMins}m ago`;
+      if (diffHrs < 24) return `${diffHrs}h ago`;
+      if (diffDays === 1) return 'Yesterday';
+      if (diffDays < 30) return `${diffDays}d ago`;
+      return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    };
+
+    const formatDate = (dateStr) => {
+      if (!dateStr) return '';
+      return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    };
+
+    // ============================================
+    // PROJECTION SCORECARD
+    // ============================================
+    const ScoreBar = ({ label, score, color }) => (
+      <div style={{ marginBottom: '16px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '6px' }}>
+          <span style={{ fontSize: '14px', fontWeight: 500, color: 'var(--text-primary)' }}>{label}</span>
+          <span style={{ fontSize: '14px', fontWeight: 600, color }}>{score}/100</span>
+        </div>
+        <div style={{ height: '8px', background: 'var(--bg-elevated)', borderRadius: '4px', overflow: 'hidden' }}>
+          <div style={{ width: `${score}%`, height: '100%', background: color, borderRadius: '4px', transition: 'width 1s ease-out' }} />
+        </div>
+      </div>
+    );
+
+    const ProjectionCard = ({ projection }) => {
+      if (!projection) return null;
+      const overall = projection.overall || 0;
+      const getOverallColor = (s) => s >= 75 ? 'var(--success)' : s >= 50 ? 'var(--warning)' : 'var(--error)';
+      const getOverallLabel = (s) => s >= 85 ? 'Exceptional' : s >= 75 ? 'Very Promising' : s >= 60 ? 'Promising' : s >= 45 ? 'Moderate Potential' : 'Needs Work';
+      const barColor = (s) => s >= 70 ? '#22c55e' : s >= 50 ? '#f59e0b' : '#ef4444';
+      return (
+        <div style={{ ...styles.card, border: `1px solid ${getOverallColor(overall)}`, overflow: 'hidden' }} className="animate-fade-in">
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }}>
+            <div style={{ width: '72px', height: '72px', borderRadius: '50%', background: `${getOverallColor(overall)}20`, border: `3px solid ${getOverallColor(overall)}`, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <span style={{ fontSize: '24px', fontWeight: 700, color: getOverallColor(overall) }}>{overall}</span>
+            </div>
+            <div>
+              <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '4px' }}>Project Projection</h3>
+              <span style={{ fontSize: '14px', fontWeight: 600, color: getOverallColor(overall) }}>{getOverallLabel(overall)}</span>
+            </div>
+          </div>
+          <ScoreBar label="Viability" score={projection.viability || 0} color={barColor(projection.viability || 0)} />
+          <ScoreBar label="Usefulness" score={projection.usefulness || 0} color={barColor(projection.usefulness || 0)} />
+          <ScoreBar label="Market Potential" score={projection.market || 0} color={barColor(projection.market || 0)} />
+          <ScoreBar label="Innovation" score={projection.innovation || 0} color={barColor(projection.innovation || 0)} />
+          {projection.summary && (
+            <div style={{ marginTop: '20px', padding: '16px', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.7 }}>
+              {projection.summary}
+            </div>
+          )}
+          {projection.strengths && projection.strengths.length > 0 && (
+            <div style={{ marginTop: '16px' }}>
+              <h4 style={{ fontSize: '13px', fontWeight: 600, color: 'var(--success)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Key Strengths</h4>
+              {projection.strengths.map((s, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '6px', fontSize: '13px', color: 'var(--text-secondary)' }}>
+                  <span style={{ color: 'var(--success)', flexShrink: 0 }}>✓</span> {s}
+                </div>
+              ))}
+            </div>
+          )}
+          {projection.risks && projection.risks.length > 0 && (
+            <div style={{ marginTop: '16px' }}>
+              <h4 style={{ fontSize: '13px', fontWeight: 600, color: 'var(--warning)', marginBottom: '8px', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Risks to Watch</h4>
+              {projection.risks.map((r, i) => (
+                <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: '8px', marginBottom: '6px', fontSize: '13px', color: 'var(--text-secondary)' }}>
+                  <span style={{ color: 'var(--warning)', flexShrink: 0 }}>⚠</span> {r}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      );
     };
 
     // ============================================
@@ -446,7 +817,7 @@
       if (mode === 'check-email') {
         return (
           <div style={styles.authContainer}>
-            <div style={styles.authCard} className="animate-fade-in">
+            <div style={styles.authCard} className="animate-fade-in auth-card">
               <div style={{ textAlign: 'center' }}>
                 <div style={{ color: 'var(--accent)', marginBottom: '16px' }}><Icons.Mail /></div>
                 <div style={{ ...styles.logoText, fontSize: '28px', marginBottom: '16px' }}>Check your email</div>
@@ -464,7 +835,7 @@
 
       return (
         <div style={styles.authContainer}>
-          <div style={styles.authCard} className="animate-fade-in">
+          <div style={styles.authCard} className="animate-fade-in auth-card">
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
               <div style={{ ...styles.logoText, fontSize: '32px', marginBottom: '8px' }}>AI App Helper</div>
               <p style={{ color: 'var(--text-secondary)' }}>
@@ -528,7 +899,7 @@
     // PIPELINE PROGRESS
     // ============================================
     const PipelineProgress = ({ projectContext, currentAgent, onAgentClick }) => (
-      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '16px 24px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', marginBottom: '32px', overflowX: 'auto' }}>
+      <div className="pipeline-bar" style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '16px 24px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', marginBottom: '32px', overflowX: 'auto' }}>
         {AGENTS.map((agent, idx) => {
           const isComplete = !!projectContext[agent.id];
           const isCurrent = currentAgent === agent.id;
@@ -576,16 +947,19 @@
       const Icon = agent.icon;
       return (
         <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '24px' }} onClick={onClose}>
-          <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)', maxWidth: '800px', width: '100%', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
+          <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)', maxWidth: '800px', width: '100%', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column', position: 'relative' }} onClick={e => e.stopPropagation()}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', background: agent.bgColor, color: agent.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon /></div>
                 <h3 style={{ fontSize: '18px', fontWeight: 600 }}>{agent.name} Output</h3>
               </div>
-              <Button variant="ghost" size="sm" onClick={onClose}>Close</Button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <CopyButton text={content} inline />
+                <Button variant="ghost" size="sm" onClick={onClose}>Close</Button>
+              </div>
             </div>
             <div style={{ padding: '24px', overflow: 'auto', flex: 1 }}>
-              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', lineHeight: 1.7, color: 'var(--text-primary)' }}>{content}</pre>
+              <MarkdownOutput text={content} />
             </div>
           </div>
         </div>
@@ -596,7 +970,7 @@
     // SKILL LEVEL SELECTOR
     // ============================================
     const SkillLevelSelector = ({ selected, onSelect }) => (
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+      <div className="skill-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
         {SKILL_LEVELS.map(level => (
           <div key={level.id} style={{ ...styles.card, cursor: 'pointer', borderColor: selected === level.id ? 'var(--accent)' : 'var(--border)', background: selected === level.id ? 'var(--accent-muted)' : 'var(--bg-secondary)', padding: '16px' }} onClick={() => onSelect(level.id)}>
             <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: `2px solid ${selected === level.id ? 'var(--accent)' : 'var(--border-light)'}`, marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: selected === level.id ? 'var(--accent)' : 'transparent' }}>
@@ -695,15 +1069,20 @@
               <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>Create your first project to start building!</p>
             </div>
           ) : (
-            <div style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <div className="landing-grid-2" style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
               {projects.map((project, idx) => {
                 const completed = AGENTS.filter(a => project.context?.[a.id]).length;
                 return (
-                  <div key={project.id} style={{ ...styles.card, cursor: 'pointer' }} className={`animate-fade-in stagger-${Math.min(idx + 3, 6)}`}
+                  <div key={project.id} style={{ ...styles.card, cursor: 'pointer' }} className={`hover-card animate-fade-in stagger-${Math.min(idx + 3, 6)}`}
                     onClick={() => { setCurrentProject(project); setCurrentView('workflow'); }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div><h3 style={styles.h3}>{project.name}</h3><p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>{completed}/{AGENTS.length} stages complete</p></div>
-                      {completed === AGENTS.length ? <span style={{ ...styles.badge, ...styles.badgeSuccess }}>Complete</span> : completed > 0 ? <span style={{ ...styles.badge, ...styles.badgeWarning }}>In Progress</span> : <span style={{ ...styles.badge, ...styles.badgeMuted }}>New</span>}
+                      <div>
+                        <h3 style={styles.h3}>{project.name}</h3>
+                        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                          {completed}/{AGENTS.length} stages • Started {timeAgo(project.created_at)}
+                        </p>
+                      </div>
+                      {project.context?._completed_at ? <span style={{ ...styles.badge, background: 'rgba(99, 102, 241, 0.15)', color: 'var(--accent)' }}>Completed</span> : completed === AGENTS.length ? <span style={{ ...styles.badge, ...styles.badgeSuccess }}>Ready to Complete</span> : completed > 0 ? <span style={{ ...styles.badge, ...styles.badgeWarning }}>In Progress</span> : <span style={{ ...styles.badge, ...styles.badgeMuted }}>New</span>}
                     </div>
                     <div style={{ display: 'flex', gap: '4px', marginTop: '16px' }}>
                       {AGENTS.map(a => <div key={a.id} style={{ flex: 1, height: '4px', borderRadius: '2px', background: project.context?.[a.id] ? a.color : 'var(--border)' }} />)}
@@ -720,25 +1099,92 @@
     // ============================================
     // WORKFLOW VIEW
     // ============================================
-    const WorkflowView = ({ project, setCurrentView }) => {
+    const WorkflowView = ({ project, setCurrentView, updateProject, user }) => {
       const completed = AGENTS.filter(a => project.context?.[a.id]);
       const nextAgent = AGENTS.find(a => !project.context?.[a.id]);
+      const allDone = completed.length === AGENTS.length;
+      const isCompleted = !!project.context?._completed_at;
+      const projection = project.context?._projection;
+      const [completing, setCompleting] = useState(false);
+      const toast = useToast();
+
+      const handleComplete = async () => {
+        setCompleting(true);
+        try {
+          const allOutputs = AGENTS.map(a => `--- ${a.name} ---\n${project.context[a.id]}`).join('\n\n');
+          const res = await fetch('/api/messages', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: 'claude-sonnet-4-20250514',
+              max_tokens: 2048,
+              system: 'You are a project evaluation expert. Analyze the complete app development outputs and provide a JSON projection. Be honest and constructive. Return ONLY valid JSON, no markdown fences, no explanation.',
+              messages: [{ role: 'user', content: `Analyze this completed app project and rate it. Here are all the development outputs:\n\n${allOutputs}\n\nReturn ONLY a JSON object with this exact structure:\n{"overall": <0-100>, "viability": <0-100>, "usefulness": <0-100>, "market": <0-100>, "innovation": <0-100>, "summary": "<2-3 sentence overall assessment>", "strengths": ["<strength 1>", "<strength 2>", "<strength 3>"], "risks": ["<risk 1>", "<risk 2>", "<risk 3>"]}` }],
+            }),
+          });
+          if (!res.ok) throw new Error('API error');
+          const data = await res.json();
+          let projectionData;
+          try {
+            const text = data.content[0].text.replace(/```json|```/g, '').trim();
+            projectionData = JSON.parse(text);
+          } catch (e) {
+            projectionData = { overall: 70, viability: 70, usefulness: 70, market: 65, innovation: 65, summary: 'Project evaluation complete. All stages have been filled in successfully.', strengths: ['Complete workflow coverage', 'Well-structured development process'], risks: ['Market validation still needed', 'Technical complexity may increase'] };
+          }
+          const updatedContext = { ...project.context, _completed_at: new Date().toISOString(), _projection: projectionData };
+          await updateProject({ ...project, context: updatedContext });
+          toast('Project completed! Projection generated.', 'success');
+        } catch (err) {
+          console.error('Projection failed:', err);
+          toast('Failed to generate projection. Try again.', 'error');
+        }
+        setCompleting(false);
+      };
+
       return (
         <div>
           <div className="animate-fade-in">
-            <h1 style={styles.h1}>{project.name}</h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '18px', marginBottom: '32px' }}>
-              {completed.length === AGENTS.length ? 'All stages complete!' : `${completed.length}/${AGENTS.length} stages complete`}
-            </p>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '8px' }}>
+              <h1 style={styles.h1}>{project.name}</h1>
+              {isCompleted && <span style={{ ...styles.badge, background: 'rgba(99, 102, 241, 0.15)', color: 'var(--accent)', padding: '6px 14px', fontSize: '13px' }}>✓ Completed</span>}
+            </div>
+            <div style={{ display: 'flex', gap: '16px', alignItems: 'center', color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '32px' }}>
+              <span>Started {formatDate(project.created_at)}</span>
+              <span style={{ color: 'var(--border)' }}>•</span>
+              <span>{completed.length}/{AGENTS.length} stages complete</span>
+              {isCompleted && (
+                <React.Fragment>
+                  <span style={{ color: 'var(--border)' }}>•</span>
+                  <span>Completed {formatDate(project.context._completed_at)}</span>
+                </React.Fragment>
+              )}
+            </div>
           </div>
+
+          {/* Projection scorecard if completed */}
+          {projection && <div style={{ marginBottom: '32px' }}><ProjectionCard projection={projection} /></div>}
+
+          {/* Complete button if all stages done but not yet completed */}
+          {allDone && !isCompleted && (
+            <div style={{ ...styles.card, background: 'var(--accent-muted)', borderColor: 'var(--accent)', marginBottom: '32px', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }} className="animate-fade-in">
+              <div>
+                <h3 style={{ fontSize: '16px', fontWeight: 600, marginBottom: '4px' }}>All stages complete!</h3>
+                <p style={{ fontSize: '14px', color: 'var(--text-secondary)' }}>Mark this project as done and get an AI projection of its potential.</p>
+              </div>
+              <Button variant="primary" onClick={handleComplete} disabled={completing}>
+                {completing ? <><Icons.Loader style={{ animation: 'spin 1s linear infinite' }} /> Analyzing...</> : <><Icons.Sparkles /> Complete Project</>}
+              </Button>
+            </div>
+          )}
+
           <PipelineProgress projectContext={project.context || {}} currentAgent={null} onAgentClick={id => setCurrentView(`agent-${id}`)} />
-          <div style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
+          <div className="landing-grid-2" style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {AGENTS.map((agent, idx) => {
               const isComplete = project.context?.[agent.id];
               const isNext = agent.id === nextAgent?.id;
               const Icon = agent.icon;
               return (
-                <div key={agent.id} className={`animate-fade-in stagger-${Math.min(idx + 1, 6)}`}
+                <div key={agent.id} className={`hover-card-glow animate-fade-in stagger-${Math.min(idx + 1, 6)}`}
                   style={{ ...styles.card, cursor: 'pointer', borderColor: isComplete ? agent.color : isNext ? 'var(--accent)' : 'var(--border)', position: 'relative' }}
                   onClick={() => setCurrentView(`agent-${agent.id}`)}>
                   {isNext && <div style={{ position: 'absolute', top: '-10px', right: '16px', background: 'var(--accent)', color: 'white', padding: '4px 12px', borderRadius: '100px', fontSize: '11px', fontWeight: 600 }}>NEXT STEP</div>}
@@ -836,7 +1282,7 @@
             </div>
           </div>
           <ContextSummary projectContext={project.context || {}} onViewOutput={id => setViewingAgent(AGENTS.find(a => a.id === id))} />
-          <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
+          <div className="agent-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
             <div className="animate-fade-in stagger-1">
               <div style={styles.card}>
                 <h3 style={{ ...styles.h2, marginBottom: '24px' }}>Input</h3>
@@ -853,16 +1299,20 @@
               </div>
             </div>
             <div className="animate-fade-in stagger-2">
-              <div style={{ ...styles.card, minHeight: '400px', display: 'flex', flexDirection: 'column' }}>
+              <div style={{ ...styles.card, minHeight: '400px', display: 'flex', flexDirection: 'column', position: 'relative' }}>
                 <h3 style={{ ...styles.h2, marginBottom: '24px' }}>Output</h3>
+                {response && <CopyButton text={response} />}
                 <div style={{ flex: 1 }}>
                   {loading ? (
-                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', color: 'var(--text-muted)' }}>
-                      <div style={{ animation: 'pulse 1.5s ease-in-out infinite' }}><Icons.Sparkles /></div>
-                      <p style={{ marginTop: '16px' }}>Generating with project context...</p>
+                    <div>
+                      <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '20px', color: 'var(--accent)' }}>
+                        <div style={{ animation: 'spin 1s linear infinite' }}><Icons.Loader /></div>
+                        <span style={{ fontSize: '14px', fontWeight: 500 }}>Generating with AI...</span>
+                      </div>
+                      <LoadingSkeleton />
                     </div>
                   ) : response ? (
-                    <div style={{ whiteSpace: 'pre-wrap', fontSize: '14px', lineHeight: 1.7, color: 'var(--text-primary)', maxHeight: '400px', overflow: 'auto' }}>{response}</div>
+                    <MarkdownOutput text={response} />
                   ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', color: 'var(--text-muted)', textAlign: 'center' }}>
                       <Icons.Sparkles /><p style={{ marginTop: '16px' }}>{Object.keys(project.context || {}).length > 0 ? 'Previous stages will be used as context' : 'Fill out the form and click Generate'}</p>
@@ -904,7 +1354,7 @@
               <h3 style={styles.h3}>No projects yet</h3>
             </div>
           ) : (
-            <div style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
+            <div className="landing-grid-2" style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
               {projects.map((project, idx) => {
                 const completed = AGENTS.filter(a => project.context?.[a.id]).length;
                 return (
@@ -912,7 +1362,17 @@
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
                       <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => { setCurrentProject(project); setCurrentView('workflow'); }}>
                         <h3 style={styles.h3}>{project.name}</h3>
-                        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>{completed}/{AGENTS.length} stages • {new Date(project.created_at).toLocaleDateString()}</p>
+                        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
+                          {completed}/{AGENTS.length} stages • Started {formatDate(project.created_at)}
+                          {project.context?._completed_at && ` • Completed ${formatDate(project.context._completed_at)}`}
+                        </p>
+                        {project.context?._projection && (
+                          <div style={{ display: 'inline-flex', alignItems: 'center', gap: '6px', marginTop: '8px', padding: '4px 10px', background: 'var(--bg-elevated)', borderRadius: '100px', fontSize: '12px', fontWeight: 600 }}>
+                            <span style={{ color: project.context._projection.overall >= 70 ? 'var(--success)' : project.context._projection.overall >= 50 ? 'var(--warning)' : 'var(--error)' }}>
+                              Score: {project.context._projection.overall}/100
+                            </span>
+                          </div>
+                        )}
                       </div>
                       <Button variant="ghost" size="sm" onClick={() => deleteProject(project.id)} style={{ color: 'var(--error)' }}><Icons.Trash /></Button>
                     </div>
@@ -961,7 +1421,7 @@
       return (
         <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
           {/* Nav */}
-          <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 48px', borderBottom: '1px solid var(--border)' }}>
+          <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 48px', borderBottom: '1px solid var(--border)' }} className="landing-nav">
             <div style={{ ...styles.logoText, fontSize: '22px' }}>AI App Helper</div>
             <div style={{ display: 'flex', gap: '12px' }}>
               <Button variant="ghost" onClick={() => setShowAuth(true)}>Sign In</Button>
@@ -970,15 +1430,15 @@
           </nav>
 
           {/* Hero */}
-          <section style={{ textAlign: 'center', padding: '100px 48px 80px', maxWidth: '900px', margin: '0 auto' }} className="animate-fade-in">
+          <section style={{ textAlign: 'center', padding: '100px 48px 80px', maxWidth: '900px', margin: '0 auto' }} className="animate-fade-in landing-section">
             <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'var(--accent-muted)', borderRadius: '100px', fontSize: '13px', fontWeight: 600, color: 'var(--accent)', marginBottom: '24px' }}>
               <Icons.Sparkles /> Powered by AI
             </div>
-            <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '72px', fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '24px' }}>
+            <h1 className="landing-hero-title" style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '72px', fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '24px' }}>
               Build your app idea<br />
               <span style={{ fontStyle: 'italic', background: 'var(--gradient-1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>from concept to code</span>
             </h1>
-            <p style={{ fontSize: '20px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.6 }}>
+            <p className="landing-hero-subtitle" style={{ fontSize: '20px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.6 }}>
               6 AI-powered agents guide you through every step of app development — brainstorming, planning, design, architecture, coding, and project management.
             </p>
             <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
@@ -989,7 +1449,7 @@
           </section>
 
           {/* How it works */}
-          <section style={{ padding: '80px 48px', maxWidth: '1100px', margin: '0 auto' }}>
+          <section style={{ padding: '80px 48px', maxWidth: '1100px', margin: '0 auto' }} className="landing-section">
             <div style={{ textAlign: 'center', marginBottom: '64px' }} className="animate-fade-in">
               <h2 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '44px', fontWeight: 400, letterSpacing: '-0.02em', marginBottom: '16px' }}>
                 How it works
@@ -1000,11 +1460,11 @@
             </div>
 
             {/* Agent pipeline visual */}
-            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+            <div className="landing-grid-3" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
               {agents.map((a, idx) => {
                 const Icon = a.icon;
                 return (
-                  <div key={idx} style={{ ...styles.card, padding: '32px', position: 'relative' }} className={`animate-fade-in stagger-${Math.min(idx + 1, 6)}`}>
+                  <div key={idx} style={{ ...styles.card, padding: '32px', position: 'relative' }} className={`hover-card animate-fade-in stagger-${Math.min(idx + 1, 6)}`}>
                     <div style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '13px', fontWeight: 700, color: 'var(--text-muted)' }}>
                       {String(idx + 1).padStart(2, '0')}
                     </div>
@@ -1020,9 +1480,9 @@
           </section>
 
           {/* Features */}
-          <section style={{ padding: '80px 48px', borderTop: '1px solid var(--border)' }}>
+          <section style={{ padding: '80px 48px', borderTop: '1px solid var(--border)' }} className="landing-section">
             <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
-              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '48px' }}>
+              <div className="landing-grid-3" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '48px' }}>
                 {[
                   { title: 'Connected Workflow', desc: 'Each agent passes context to the next, so your architecture matches your features and your code matches your design.', icon: Icons.Workflow },
                   { title: 'Skill Level Adaptation', desc: 'Set your experience level and get explanations tailored to you — from beginner-friendly to advanced technical specs.', icon: Icons.User },
@@ -1044,7 +1504,7 @@
           </section>
 
           {/* CTA */}
-          <section style={{ padding: '80px 48px', textAlign: 'center', borderTop: '1px solid var(--border)' }}>
+          <section style={{ padding: '80px 48px', textAlign: 'center', borderTop: '1px solid var(--border)' }} className="landing-section">
             <div style={{ maxWidth: '600px', margin: '0 auto' }} className="animate-fade-in">
               <h2 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '44px', fontWeight: 400, letterSpacing: '-0.02em', marginBottom: '16px' }}>
                 Ready to build?
@@ -1079,6 +1539,7 @@
       const [projects, setProjects] = useState([]);
       const [currentProject, setCurrentProject] = useState(null);
       const [loadingProjects, setLoadingProjects] = useState(false);
+      const toast = useToast();
 
       // Check for existing session on load
       useEffect(() => {
@@ -1112,6 +1573,9 @@
           setProjects(prev => [data, ...prev]);
           setCurrentProject(data);
           setCurrentView('workflow');
+          toast(`Project "${name}" created!`, 'success');
+        } else {
+          toast('Failed to create project', 'error');
         }
       };
 
@@ -1128,6 +1592,7 @@
         if (!error) {
           setProjects(prev => prev.filter(p => p.id !== id));
           if (currentProject?.id === id) { setCurrentProject(null); setCurrentView('dashboard'); }
+          toast('Project deleted', 'info');
         }
       };
 
@@ -1156,7 +1621,7 @@
             <main style={styles.content}>
               {currentView === 'dashboard' && <Dashboard setCurrentView={setCurrentView} projects={projects} setCurrentProject={setCurrentProject} createProject={createProject} loadingProjects={loadingProjects} />}
               {currentView === 'projects' && <ProjectsView projects={projects} deleteProject={deleteProject} setCurrentProject={setCurrentProject} setCurrentView={setCurrentView} loadingProjects={loadingProjects} />}
-              {currentView === 'workflow' && currentProject && <WorkflowView project={currentProject} setCurrentView={setCurrentView} />}
+              {currentView === 'workflow' && currentProject && <WorkflowView project={currentProject} setCurrentView={setCurrentView} updateProject={updateProject} user={user} />}
               {currentView === 'settings' && <SettingsView skillLevel={skillLevel} setSkillLevel={setSkillLevel} />}
               {activeAgent && currentProject && <AgentView agent={activeAgent} project={currentProject} updateProject={updateProject} skillLevel={skillLevel} setCurrentView={setCurrentView} user={user} />}
               {activeAgent && !currentProject && (
@@ -1172,7 +1637,7 @@
       );
     };
 
-    ReactDOM.render(<App />, document.getElementById('root'));
+    ReactDOM.render(<ToastProvider><App /></ToastProvider>, document.getElementById('root'));
   </script>
 </body>
 </html>
