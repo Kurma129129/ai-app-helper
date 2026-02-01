@@ -39,11 +39,7 @@
       --radius-xl: 24px;
     }
 
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
+    * { margin: 0; padding: 0; box-sizing: border-box; }
 
     body {
       font-family: 'DM Sans', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -54,53 +50,32 @@
       -webkit-font-smoothing: antialiased;
     }
 
-    #root {
-      min-height: 100vh;
-    }
+    #root { min-height: 100vh; }
 
-    ::-webkit-scrollbar {
-      width: 8px;
-      height: 8px;
-    }
-    ::-webkit-scrollbar-track {
-      background: var(--bg-secondary);
-    }
-    ::-webkit-scrollbar-thumb {
-      background: var(--border-light);
-      border-radius: 4px;
-    }
-    ::-webkit-scrollbar-thumb:hover {
-      background: var(--text-muted);
-    }
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: var(--bg-secondary); }
+    ::-webkit-scrollbar-thumb { background: var(--border-light); border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(10px); }
       to { opacity: 1; transform: translateY(0); }
     }
-
     @keyframes slideIn {
       from { opacity: 0; transform: translateX(-20px); }
       to { opacity: 1; transform: translateX(0); }
     }
-
     @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.5; }
     }
-
     @keyframes spin {
       from { transform: rotate(0deg); }
       to { transform: rotate(360deg); }
     }
 
-    .animate-fade-in {
-      animation: fadeIn 0.5s ease-out forwards;
-    }
-
-    .animate-slide-in {
-      animation: slideIn 0.4s ease-out forwards;
-    }
-
+    .animate-fade-in { animation: fadeIn 0.5s ease-out forwards; }
+    .animate-slide-in { animation: slideIn 0.4s ease-out forwards; }
     .stagger-1 { animation-delay: 0.1s; opacity: 0; }
     .stagger-2 { animation-delay: 0.2s; opacity: 0; }
     .stagger-3 { animation-delay: 0.3s; opacity: 0; }
@@ -113,20 +88,15 @@
   <div id="root"></div>
 
   <script type="text/babel">
-    const { useState, useEffect, createContext, useContext, useCallback } = React;
+    const { useState, useEffect, useCallback } = React;
 
     // ============================================
-    // CONFIGURATION
+    // SUPABASE CONFIG
     // ============================================
-    const CONFIG = {
-      SUPABASE_URL: 'YOUR_SUPABASE_URL',
-      SUPABASE_ANON_KEY: 'YOUR_SUPABASE_ANON_KEY',
-    };
-
-    let supabase = null;
-    if (CONFIG.SUPABASE_URL !== 'YOUR_SUPABASE_URL') {
-      supabase = window.supabase.createClient(CONFIG.SUPABASE_URL, CONFIG.SUPABASE_ANON_KEY);
-    }
+    const supabase = window.supabase.createClient(
+      'https://wrdgqkubpfzwitymmwsa.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6IndyZGdxa3VicGZ6d2l0eW1td3NhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Njk5NzMzMTQsImV4cCI6MjA4NTU0OTMxNH0.971l5ywBnpP_JdDwKHuoD2crQVkXUSWBUt1Z4QnChRc'
+    );
 
     // ============================================
     // ICONS
@@ -152,10 +122,11 @@
       ),
       Cpu: () => (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/>
-          <rect x="9" y="9" width="6" height="6"/><line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
-          <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/><line x1="20" y1="9" x2="23" y2="9"/>
-          <line x1="20" y1="14" x2="23" y2="14"/><line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
+          <rect x="4" y="4" width="16" height="16" rx="2" ry="2"/><rect x="9" y="9" width="6" height="6"/>
+          <line x1="9" y1="1" x2="9" y2="4"/><line x1="15" y1="1" x2="15" y2="4"/>
+          <line x1="9" y1="20" x2="9" y2="23"/><line x1="15" y1="20" x2="15" y2="23"/>
+          <line x1="20" y1="9" x2="23" y2="9"/><line x1="20" y1="14" x2="23" y2="14"/>
+          <line x1="1" y1="9" x2="4" y2="9"/><line x1="1" y1="14" x2="4" y2="14"/>
         </svg>
       ),
       Code: () => (
@@ -234,14 +205,14 @@
           <path d="M18 9v3a1 1 0 0 1-1 1h-4"/>
         </svg>
       ),
-      Eye: () => (
-        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-          <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
-        </svg>
-      ),
       Trash: () => (
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <polyline points="3,6 5,6 21,6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+        </svg>
+      ),
+      Mail: () => (
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/>
         </svg>
       ),
     };
@@ -250,501 +221,120 @@
     // STYLES
     // ============================================
     const styles = {
-      container: {
-        minHeight: '100vh',
-        display: 'flex',
-        flexDirection: 'column',
-      },
-      main: {
-        flex: 1,
-        display: 'flex',
-      },
-      sidebar: {
-        width: '280px',
-        background: 'var(--bg-secondary)',
-        borderRight: '1px solid var(--border)',
-        display: 'flex',
-        flexDirection: 'column',
-        position: 'fixed',
-        left: 0,
-        top: 0,
-        bottom: 0,
-        zIndex: 100,
-      },
-      content: {
-        flex: 1,
-        marginLeft: '280px',
-        padding: '32px 48px',
-        minHeight: '100vh',
-      },
-      logo: {
-        padding: '24px',
-        borderBottom: '1px solid var(--border)',
-      },
-      logoText: {
-        fontFamily: "'Instrument Serif', Georgia, serif",
-        fontSize: '24px',
-        fontWeight: 400,
-        fontStyle: 'italic',
-        background: 'var(--gradient-1)',
-        WebkitBackgroundClip: 'text',
-        WebkitTextFillColor: 'transparent',
-        letterSpacing: '-0.02em',
-      },
-      nav: {
-        flex: 1,
-        padding: '16px',
-        overflowY: 'auto',
-      },
-      navSection: {
-        marginBottom: '24px',
-      },
-      navLabel: {
-        fontSize: '11px',
-        fontWeight: 600,
-        textTransform: 'uppercase',
-        letterSpacing: '0.08em',
-        color: 'var(--text-muted)',
-        padding: '8px 12px',
-      },
-      navItem: {
-        display: 'flex',
-        alignItems: 'center',
-        gap: '12px',
-        padding: '12px',
-        borderRadius: 'var(--radius-md)',
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        color: 'var(--text-secondary)',
-        border: 'none',
-        background: 'transparent',
-        width: '100%',
-        textAlign: 'left',
-        fontSize: '14px',
-        fontWeight: 500,
-      },
-      navItemActive: {
-        background: 'var(--accent-muted)',
-        color: 'var(--accent)',
-      },
-      navItemHover: {
-        background: 'var(--bg-hover)',
-        color: 'var(--text-primary)',
-      },
-      card: {
-        background: 'var(--bg-secondary)',
-        borderRadius: 'var(--radius-lg)',
-        border: '1px solid var(--border)',
-        padding: '24px',
-        transition: 'all 0.3s ease',
-      },
-      cardHover: {
-        borderColor: 'var(--border-light)',
-        transform: 'translateY(-2px)',
-        boxShadow: 'var(--shadow-lg)',
-      },
-      button: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        gap: '8px',
-        padding: '12px 24px',
-        borderRadius: 'var(--radius-md)',
-        fontSize: '14px',
-        fontWeight: 600,
-        cursor: 'pointer',
-        transition: 'all 0.2s ease',
-        border: 'none',
-        fontFamily: 'inherit',
-      },
-      buttonPrimary: {
-        background: 'var(--accent)',
-        color: 'white',
-      },
-      buttonSecondary: {
-        background: 'var(--bg-elevated)',
-        color: 'var(--text-primary)',
-        border: '1px solid var(--border)',
-      },
-      buttonGhost: {
-        background: 'transparent',
-        color: 'var(--text-secondary)',
-      },
-      buttonSuccess: {
-        background: 'var(--success)',
-        color: 'white',
-      },
-      input: {
-        width: '100%',
-        padding: '14px 16px',
-        borderRadius: 'var(--radius-md)',
-        border: '1px solid var(--border)',
-        background: 'var(--bg-elevated)',
-        color: 'var(--text-primary)',
-        fontSize: '14px',
-        fontFamily: 'inherit',
-        transition: 'all 0.2s ease',
-        outline: 'none',
-      },
-      inputFocus: {
-        borderColor: 'var(--accent)',
-        boxShadow: '0 0 0 3px var(--accent-muted)',
-      },
-      textarea: {
-        resize: 'vertical',
-        minHeight: '120px',
-      },
-      label: {
-        display: 'block',
-        fontSize: '13px',
-        fontWeight: 500,
-        color: 'var(--text-secondary)',
-        marginBottom: '8px',
-      },
-      h1: {
-        fontFamily: "'Instrument Serif', Georgia, serif",
-        fontSize: '48px',
-        fontWeight: 400,
-        letterSpacing: '-0.02em',
-        lineHeight: 1.1,
-        marginBottom: '16px',
-      },
-      h2: {
-        fontSize: '24px',
-        fontWeight: 600,
-        letterSpacing: '-0.01em',
-        marginBottom: '8px',
-      },
-      h3: {
-        fontSize: '18px',
-        fontWeight: 600,
-        marginBottom: '4px',
-      },
-      badge: {
-        display: 'inline-flex',
-        alignItems: 'center',
-        padding: '4px 10px',
-        borderRadius: '100px',
-        fontSize: '12px',
-        fontWeight: 500,
-      },
-      badgeSuccess: {
-        background: 'rgba(34, 197, 94, 0.15)',
-        color: 'var(--success)',
-      },
-      badgeWarning: {
-        background: 'rgba(245, 158, 11, 0.15)',
-        color: 'var(--warning)',
-      },
-      badgeMuted: {
-        background: 'var(--bg-elevated)',
-        color: 'var(--text-muted)',
-      },
-      grid: {
-        display: 'grid',
-        gap: '24px',
-      },
-      authContainer: {
-        minHeight: '100vh',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: '24px',
-        background: 'var(--gradient-2)',
-      },
-      authCard: {
-        width: '100%',
-        maxWidth: '420px',
-        background: 'var(--bg-secondary)',
-        borderRadius: 'var(--radius-xl)',
-        border: '1px solid var(--border)',
-        padding: '48px',
-        boxShadow: 'var(--shadow-lg)',
-      },
-      agentIcon: {
-        width: '48px',
-        height: '48px',
-        borderRadius: 'var(--radius-md)',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        marginBottom: '16px',
-      },
+      container: { minHeight: '100vh', display: 'flex', flexDirection: 'column' },
+      main: { flex: 1, display: 'flex' },
+      sidebar: { width: '280px', background: 'var(--bg-secondary)', borderRight: '1px solid var(--border)', display: 'flex', flexDirection: 'column', position: 'fixed', left: 0, top: 0, bottom: 0, zIndex: 100 },
+      content: { flex: 1, marginLeft: '280px', padding: '32px 48px', minHeight: '100vh' },
+      logo: { padding: '24px', borderBottom: '1px solid var(--border)' },
+      logoText: { fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '24px', fontWeight: 400, fontStyle: 'italic', background: 'var(--gradient-1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', letterSpacing: '-0.02em' },
+      nav: { flex: 1, padding: '16px', overflowY: 'auto' },
+      navSection: { marginBottom: '24px' },
+      navLabel: { fontSize: '11px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.08em', color: 'var(--text-muted)', padding: '8px 12px' },
+      navItem: { display: 'flex', alignItems: 'center', gap: '12px', padding: '12px', borderRadius: 'var(--radius-md)', cursor: 'pointer', transition: 'all 0.2s ease', color: 'var(--text-secondary)', border: 'none', background: 'transparent', width: '100%', textAlign: 'left', fontSize: '14px', fontWeight: 500 },
+      navItemActive: { background: 'var(--accent-muted)', color: 'var(--accent)' },
+      navItemHover: { background: 'var(--bg-hover)', color: 'var(--text-primary)' },
+      card: { background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)', padding: '24px', transition: 'all 0.3s ease' },
+      cardHover: { borderColor: 'var(--border-light)', transform: 'translateY(-2px)', boxShadow: 'var(--shadow-lg)' },
+      button: { display: 'inline-flex', alignItems: 'center', justifyContent: 'center', gap: '8px', padding: '12px 24px', borderRadius: 'var(--radius-md)', fontSize: '14px', fontWeight: 600, cursor: 'pointer', transition: 'all 0.2s ease', border: 'none', fontFamily: 'inherit' },
+      buttonPrimary: { background: 'var(--accent)', color: 'white' },
+      buttonSecondary: { background: 'var(--bg-elevated)', color: 'var(--text-primary)', border: '1px solid var(--border)' },
+      buttonGhost: { background: 'transparent', color: 'var(--text-secondary)' },
+      buttonSuccess: { background: 'var(--success)', color: 'white' },
+      input: { width: '100%', padding: '14px 16px', borderRadius: 'var(--radius-md)', border: '1px solid var(--border)', background: 'var(--bg-elevated)', color: 'var(--text-primary)', fontSize: '14px', fontFamily: 'inherit', transition: 'all 0.2s ease', outline: 'none' },
+      inputFocus: { borderColor: 'var(--accent)', boxShadow: '0 0 0 3px var(--accent-muted)' },
+      textarea: { resize: 'vertical', minHeight: '120px' },
+      label: { display: 'block', fontSize: '13px', fontWeight: 500, color: 'var(--text-secondary)', marginBottom: '8px' },
+      h1: { fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '48px', fontWeight: 400, letterSpacing: '-0.02em', lineHeight: 1.1, marginBottom: '16px' },
+      h2: { fontSize: '24px', fontWeight: 600, letterSpacing: '-0.01em', marginBottom: '8px' },
+      h3: { fontSize: '18px', fontWeight: 600, marginBottom: '4px' },
+      badge: { display: 'inline-flex', alignItems: 'center', padding: '4px 10px', borderRadius: '100px', fontSize: '12px', fontWeight: 500 },
+      badgeSuccess: { background: 'rgba(34, 197, 94, 0.15)', color: 'var(--success)' },
+      badgeWarning: { background: 'rgba(245, 158, 11, 0.15)', color: 'var(--warning)' },
+      badgeMuted: { background: 'var(--bg-elevated)', color: 'var(--text-muted)' },
+      grid: { display: 'grid', gap: '24px' },
+      authContainer: { minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '24px', background: 'var(--gradient-2)' },
+      authCard: { width: '100%', maxWidth: '420px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)', padding: '48px', boxShadow: 'var(--shadow-lg)' },
+      agentIcon: { width: '48px', height: '48px', borderRadius: 'var(--radius-md)', display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '16px' },
     };
 
     // ============================================
-    // AGENT DEFINITIONS - NOW WITH CONTEXT AWARENESS
+    // AGENT DEFINITIONS
     // ============================================
     const AGENTS = [
       {
-        id: 'brainstorm',
-        name: 'Idea Brainstorming',
-        shortName: 'Idea',
+        id: 'brainstorm', name: 'Idea Brainstorming', shortName: 'Idea',
         description: 'Transform rough concepts into refined app ideas',
-        icon: Icons.Lightbulb,
-        color: '#f59e0b',
-        bgColor: 'rgba(245, 158, 11, 0.15)',
-        order: 1,
-        nextAgent: 'features',
-        prevAgent: null,
+        icon: Icons.Lightbulb, color: '#f59e0b', bgColor: 'rgba(245, 158, 11, 0.15)',
+        order: 1, nextAgent: 'features', prevAgent: null,
         fields: [
           { name: 'concept', label: 'Describe your app idea', type: 'textarea', placeholder: 'What problem does your app solve? Who is it for?' },
           { name: 'inspiration', label: 'Any apps that inspired you?', type: 'text', placeholder: 'e.g., "Something like Notion meets Trello"' },
           { name: 'audience', label: 'Target audience', type: 'text', placeholder: 'Who will use this app?' },
         ],
-        buildPrompt: (skillLevel, projectContext) => {
-          const basePrompts = {
-            beginner: 'You are a friendly app idea coach. Help users develop their app ideas step by step. Explain concepts simply and provide lots of encouragement.',
-            intermediate: 'You are an app ideation specialist. Help refine app concepts by exploring target audiences, unique value propositions, and potential features.',
-            advanced: 'You are a senior product strategist. Analyze app concepts for market viability, competitive differentiation, and technical feasibility.',
-          };
-          return basePrompts[skillLevel];
-        },
-        buildUserMessage: (formData, projectContext) => {
-          return `Please help me develop this app idea:
-
-Concept: ${formData.concept || 'Not specified'}
-Inspiration: ${formData.inspiration || 'Not specified'}
-Target Audience: ${formData.audience || 'Not specified'}
-
-Please provide:
-1. A refined version of the app concept
-2. Key value propositions
-3. Target user personas
-4. Potential challenges and how to address them
-5. A catchy name suggestion for the app`;
-        },
+        buildPrompt: (sl) => ({ beginner: 'You are a friendly app idea coach. Help users develop their app ideas step by step. Explain concepts simply.', intermediate: 'You are an app ideation specialist. Help refine app concepts by exploring target audiences and unique value propositions.', advanced: 'You are a senior product strategist. Analyze app concepts for market viability and competitive differentiation.' }[sl]),
+        buildUserMessage: (fd, ctx) => `Please help me develop this app idea:\n\nConcept: ${fd.concept || 'Not specified'}\nInspiration: ${fd.inspiration || 'Not specified'}\nTarget Audience: ${fd.audience || 'Not specified'}\n\nPlease provide:\n1. A refined version of the app concept\n2. Key value propositions\n3. Target user personas\n4. Potential challenges and how to address them\n5. A catchy name suggestion for the app`,
       },
       {
-        id: 'features',
-        name: 'Feature Planning',
-        shortName: 'Features',
+        id: 'features', name: 'Feature Planning', shortName: 'Features',
         description: 'Break down your app into organized features',
-        icon: Icons.List,
-        color: '#22c55e',
-        bgColor: 'rgba(34, 197, 94, 0.15)',
-        order: 2,
-        nextAgent: 'wireframe',
-        prevAgent: 'brainstorm',
+        icon: Icons.List, color: '#22c55e', bgColor: 'rgba(34, 197, 94, 0.15)',
+        order: 2, nextAgent: 'wireframe', prevAgent: 'brainstorm',
         fields: [
-          { name: 'additionalFeatures', label: 'Any specific features you want?', type: 'textarea', placeholder: 'List any must-have features or functionalities' },
-          { name: 'constraints', label: 'Constraints or requirements', type: 'text', placeholder: 'e.g., "Must work offline" or "Needs to be very fast"' },
+          { name: 'additionalFeatures', label: 'Any specific features you want?', type: 'textarea', placeholder: 'List any must-have features' },
+          { name: 'constraints', label: 'Constraints or requirements', type: 'text', placeholder: 'e.g., "Must work offline"' },
         ],
-        buildPrompt: (skillLevel, projectContext) => {
-          const basePrompts = {
-            beginner: 'You are a helpful feature planning assistant. Break down app ideas into simple, understandable features. Explain what each feature does and why it matters.',
-            intermediate: 'You are a product manager helping plan app features. Create organized feature lists with priorities (must-have, nice-to-have, future).',
-            advanced: 'You are a technical product lead. Create comprehensive feature specifications including user stories, acceptance criteria, and dependencies.',
-          };
-          return basePrompts[skillLevel];
-        },
-        buildUserMessage: (formData, projectContext) => {
-          let context = '';
-          if (projectContext.brainstorm) {
-            context = `Based on our previous ideation work:\n${projectContext.brainstorm}\n\n`;
-          }
-          return `${context}Please create a feature plan for this app.
-
-Additional features requested: ${formData.additionalFeatures || 'None specified'}
-Constraints: ${formData.constraints || 'None specified'}
-
-Please provide:
-1. Core features (MVP - must have for launch)
-2. Secondary features (nice to have)
-3. Future features (post-launch roadmap)
-4. For each feature, include a brief description of what it does`;
-        },
+        buildPrompt: (sl) => ({ beginner: 'You are a helpful feature planning assistant. Break down app ideas into simple features.', intermediate: 'You are a product manager. Create organized feature lists with priorities.', advanced: 'You are a technical product lead. Create comprehensive feature specs with user stories and dependencies.' }[sl]),
+        buildUserMessage: (fd, ctx) => `${ctx.brainstorm ? `Based on our ideation:\n${ctx.brainstorm}\n\n` : ''}Please create a feature plan.\n\nAdditional features: ${fd.additionalFeatures || 'None'}\nConstraints: ${fd.constraints || 'None'}\n\nProvide:\n1. Core features (MVP)\n2. Secondary features (nice to have)\n3. Future features (post-launch)`,
       },
       {
-        id: 'wireframe',
-        name: 'Wireframing & UI',
-        shortName: 'UI Design',
+        id: 'wireframe', name: 'Wireframing & UI', shortName: 'UI Design',
         description: 'Generate visual layouts and UI descriptions',
-        icon: Icons.Layout,
-        color: '#6366f1',
-        bgColor: 'rgba(99, 102, 241, 0.15)',
-        order: 3,
-        nextAgent: 'architecture',
-        prevAgent: 'features',
+        icon: Icons.Layout, color: '#6366f1', bgColor: 'rgba(99, 102, 241, 0.15)',
+        order: 3, nextAgent: 'architecture', prevAgent: 'features',
         fields: [
-          { name: 'screens', label: 'Which screens to design?', type: 'textarea', placeholder: 'List the main screens (or leave blank to auto-suggest based on features)' },
-          { name: 'style', label: 'Design style preference', type: 'select', options: ['Modern & Clean', 'Playful & Colorful', 'Professional & Corporate', 'Minimal & Elegant', 'Bold & Dynamic'] },
+          { name: 'screens', label: 'Which screens to design?', type: 'textarea', placeholder: 'List main screens (or leave blank to auto-suggest)' },
+          { name: 'style', label: 'Design style', type: 'select', options: ['Modern & Clean', 'Playful & Colorful', 'Professional & Corporate', 'Minimal & Elegant', 'Bold & Dynamic'] },
         ],
-        buildPrompt: (skillLevel, projectContext) => {
-          const basePrompts = {
-            beginner: 'You are a friendly UI design assistant. Describe app screens in simple terms. Explain where buttons, text, and images should go using everyday language. Provide ASCII wireframes.',
-            intermediate: 'You are a UI/UX designer. Create detailed wireframe descriptions with component hierarchy, layout grids, and user flow.',
-            advanced: 'You are a senior product designer. Provide comprehensive UI specifications including component architecture, design tokens, and interaction patterns.',
-          };
-          return basePrompts[skillLevel];
-        },
-        buildUserMessage: (formData, projectContext) => {
-          let context = '';
-          if (projectContext.brainstorm) {
-            context += `App Concept:\n${projectContext.brainstorm}\n\n`;
-          }
-          if (projectContext.features) {
-            context += `Features to support:\n${projectContext.features}\n\n`;
-          }
-          return `${context}Please design the UI for this app.
-
-Screens requested: ${formData.screens || 'Please suggest the essential screens based on the features'}
-Style preference: ${formData.style || 'Modern & Clean'}
-
-Please provide:
-1. List of screens needed
-2. For each screen, provide:
-   - Purpose of the screen
-   - Key UI elements and their layout
-   - User interactions available
-   - ASCII wireframe mockup
-3. Navigation flow between screens`;
-        },
+        buildPrompt: (sl) => ({ beginner: 'You are a friendly UI design assistant. Describe screens in simple terms with ASCII wireframes.', intermediate: 'You are a UI/UX designer. Create detailed wireframe descriptions with layouts and user flow.', advanced: 'You are a senior product designer. Provide comprehensive UI specs with component architecture.' }[sl]),
+        buildUserMessage: (fd, ctx) => `${ctx.brainstorm ? `App Concept:\n${ctx.brainstorm}\n\n` : ''}${ctx.features ? `Features:\n${ctx.features}\n\n` : ''}Design the UI.\n\nScreens: ${fd.screens || 'Suggest based on features'}\nStyle: ${fd.style || 'Modern & Clean'}\n\nProvide:\n1. List of screens needed\n2. Layout and elements for each\n3. ASCII wireframes\n4. Navigation flow`,
       },
       {
-        id: 'architecture',
-        name: 'Architecture Advisor',
-        shortName: 'Architecture',
+        id: 'architecture', name: 'Architecture Advisor', shortName: 'Architecture',
         description: 'Get tech stack and system design recommendations',
-        icon: Icons.Cpu,
-        color: '#8b5cf6',
-        bgColor: 'rgba(139, 92, 246, 0.15)',
-        order: 4,
-        nextAgent: 'codegen',
-        prevAgent: 'wireframe',
+        icon: Icons.Cpu, color: '#8b5cf6', bgColor: 'rgba(139, 92, 246, 0.15)',
+        order: 4, nextAgent: 'codegen', prevAgent: 'wireframe',
         fields: [
           { name: 'appType', label: 'Platform', type: 'select', options: ['Web App', 'Mobile App (iOS)', 'Mobile App (Android)', 'Cross-platform Mobile', 'Desktop App', 'API / Backend'] },
           { name: 'scale', label: 'Expected scale', type: 'select', options: ['Just me / Prototype', 'Small team (<100 users)', 'Medium (100-10k users)', 'Large (10k+ users)'] },
-          { name: 'teamExperience', label: 'Team experience', type: 'select', options: ['Beginner - new to coding', 'Some experience', 'Experienced developers'] },
+          { name: 'teamExperience', label: 'Team experience', type: 'select', options: ['Beginner', 'Some experience', 'Experienced developers'] },
         ],
-        buildPrompt: (skillLevel, projectContext) => {
-          const basePrompts = {
-            beginner: 'You are a patient tech advisor. Explain technology choices in simple terms without jargon. Provide clear recommendations with simple explanations.',
-            intermediate: 'You are a solutions architect. Recommend appropriate tech stacks based on requirements. Explain tradeoffs between different approaches.',
-            advanced: 'You are a principal engineer. Provide comprehensive architecture including system design, scalability patterns, security, and CI/CD.',
-          };
-          return basePrompts[skillLevel];
-        },
-        buildUserMessage: (formData, projectContext) => {
-          let context = '';
-          if (projectContext.brainstorm) {
-            context += `App Concept:\n${projectContext.brainstorm}\n\n`;
-          }
-          if (projectContext.features) {
-            context += `Features:\n${projectContext.features}\n\n`;
-          }
-          return `${context}Please recommend the technical architecture for this app.
-
-Platform: ${formData.appType || 'Web App'}
-Expected Scale: ${formData.scale || 'Small team'}
-Team Experience: ${formData.teamExperience || 'Some experience'}
-
-Please provide:
-1. Recommended tech stack (frontend, backend, database)
-2. Why each technology was chosen
-3. High-level system architecture
-4. Key technical considerations
-5. Potential scaling strategies`;
-        },
+        buildPrompt: (sl) => ({ beginner: 'You are a patient tech advisor. Explain technology choices simply.', intermediate: 'You are a solutions architect. Recommend tech stacks with tradeoff explanations.', advanced: 'You are a principal engineer. Provide comprehensive architecture with scalability and security.' }[sl]),
+        buildUserMessage: (fd, ctx) => `${ctx.brainstorm ? `App Concept:\n${ctx.brainstorm}\n\n` : ''}${ctx.features ? `Features:\n${ctx.features}\n\n` : ''}Recommend architecture.\n\nPlatform: ${fd.appType || 'Web App'}\nScale: ${fd.scale || 'Small'}\nTeam: ${fd.teamExperience || 'Some experience'}\n\nProvide:\n1. Tech stack\n2. Why each choice\n3. System architecture\n4. Scaling strategies`,
       },
       {
-        id: 'codegen',
-        name: 'Code Generation',
-        shortName: 'Code',
+        id: 'codegen', name: 'Code Generation', shortName: 'Code',
         description: 'Generate working code and components',
-        icon: Icons.Code,
-        color: '#ec4899',
-        bgColor: 'rgba(236, 72, 153, 0.15)',
-        order: 5,
-        nextAgent: 'project',
-        prevAgent: 'architecture',
+        icon: Icons.Code, color: '#ec4899', bgColor: 'rgba(236, 72, 153, 0.15)',
+        order: 5, nextAgent: 'project', prevAgent: 'architecture',
         fields: [
-          { name: 'component', label: 'What to generate?', type: 'textarea', placeholder: 'Describe the component or feature (or leave blank to generate based on architecture)' },
+          { name: 'component', label: 'What to generate?', type: 'textarea', placeholder: 'Describe the component or feature' },
           { name: 'language', label: 'Language / Framework', type: 'select', options: ['Auto-detect from architecture', 'JavaScript / React', 'TypeScript / React', 'Python', 'Node.js / Express', 'Swift (iOS)', 'Kotlin (Android)', 'HTML / CSS'] },
         ],
-        buildPrompt: (skillLevel, projectContext) => {
-          const basePrompts = {
-            beginner: 'You are a coding tutor. Write clean, well-commented code that teaches as it goes. Explain every significant line.',
-            intermediate: 'You are a full-stack developer. Write production-quality code with appropriate error handling and comments on non-obvious logic.',
-            advanced: 'You are a senior engineer. Write optimized, production-ready code following best practices with comprehensive error handling.',
-          };
-          return basePrompts[skillLevel];
-        },
-        buildUserMessage: (formData, projectContext) => {
-          let context = '';
-          if (projectContext.architecture) {
-            context += `Technical Architecture:\n${projectContext.architecture}\n\n`;
-          }
-          if (projectContext.features) {
-            context += `Features to implement:\n${projectContext.features}\n\n`;
-          }
-          if (projectContext.wireframe) {
-            context += `UI Design:\n${projectContext.wireframe}\n\n`;
-          }
-          
-          const language = formData.language === 'Auto-detect from architecture' ? 'Based on the architecture above' : formData.language;
-          
-          return `${context}Please generate code for this app.
-
-Component/Feature: ${formData.component || 'Generate the core project structure and initial components'}
-Language/Framework: ${language}
-
-Please provide:
-1. File structure
-2. Complete, working code for each file
-3. Instructions on how to run/use the code
-4. Any dependencies needed`;
-        },
+        buildPrompt: (sl) => ({ beginner: 'You are a coding tutor. Write clean, well-commented code that teaches.', intermediate: 'You are a full-stack developer. Write production-quality code with error handling.', advanced: 'You are a senior engineer. Write optimized, production-ready code with best practices.' }[sl]),
+        buildUserMessage: (fd, ctx) => `${ctx.architecture ? `Architecture:\n${ctx.architecture}\n\n` : ''}${ctx.features ? `Features:\n${ctx.features}\n\n` : ''}${ctx.wireframe ? `UI Design:\n${ctx.wireframe}\n\n` : ''}Generate code.\n\nComponent: ${fd.component || 'Core project structure'}\nLanguage: ${fd.language === 'Auto-detect from architecture' ? 'Based on architecture' : fd.language}\n\nProvide:\n1. File structure\n2. Working code\n3. How to run it\n4. Dependencies`,
       },
       {
-        id: 'project',
-        name: 'Project Management',
-        shortName: 'Project',
+        id: 'project', name: 'Project Management', shortName: 'Project',
         description: 'Create tasks, milestones, and timelines',
-        icon: Icons.Calendar,
-        color: '#06b6d4',
-        bgColor: 'rgba(6, 182, 212, 0.15)',
-        order: 6,
-        nextAgent: null,
-        prevAgent: 'codegen',
+        icon: Icons.Calendar, color: '#06b6d4', bgColor: 'rgba(6, 182, 212, 0.15)',
+        order: 6, nextAgent: null, prevAgent: 'codegen',
         fields: [
           { name: 'deadline', label: 'Target completion', type: 'select', options: ['ASAP / No deadline', '1 month', '3 months', '6 months', '1 year'] },
           { name: 'teamSize', label: 'Team size', type: 'select', options: ['Just me', '2-3 people', '4-6 people', '7+ people'] },
           { name: 'workStyle', label: 'Work style', type: 'select', options: ['Part-time / Side project', 'Full-time focus', 'Mixed availability'] },
         ],
-        buildPrompt: (skillLevel, projectContext) => {
-          const basePrompts = {
-            beginner: 'You are a friendly project planning helper. Break down development into small, achievable tasks. Focus on making progress feel manageable.',
-            intermediate: 'You are a project manager. Create structured project plans with phases, milestones, and task dependencies.',
-            advanced: 'You are a technical program manager. Create comprehensive roadmaps with sprint planning, resource allocation, and risk mitigation.',
-          };
-          return basePrompts[skillLevel];
-        },
-        buildUserMessage: (formData, projectContext) => {
-          let context = 'Based on everything we\'ve planned:\n\n';
-          if (projectContext.brainstorm) {
-            context += `App Concept:\n${projectContext.brainstorm}\n\n`;
-          }
-          if (projectContext.features) {
-            context += `Features:\n${projectContext.features}\n\n`;
-          }
-          if (projectContext.architecture) {
-            context += `Architecture:\n${projectContext.architecture}\n\n`;
-          }
-          return `${context}Please create a project plan.
-
-Target Completion: ${formData.deadline || 'Flexible'}
-Team Size: ${formData.teamSize || 'Just me'}
-Work Style: ${formData.workStyle || 'Part-time'}
-
-Please provide:
-1. Project phases with milestones
-2. Detailed task breakdown for each phase
-3. Time estimates for each task
-4. Dependencies between tasks
-5. Risk factors and mitigation strategies
-6. Suggested sprint/iteration structure`;
-        },
+        buildPrompt: (sl) => ({ beginner: 'You are a friendly project planning helper. Break down development into small tasks.', intermediate: 'You are a project manager. Create structured plans with milestones and dependencies.', advanced: 'You are a technical program manager. Create comprehensive roadmaps with sprint planning.' }[sl]),
+        buildUserMessage: (fd, ctx) => `Based on everything planned:\n\n${ctx.brainstorm ? `Concept:\n${ctx.brainstorm}\n\n` : ''}${ctx.features ? `Features:\n${ctx.features}\n\n` : ''}${ctx.architecture ? `Architecture:\n${ctx.architecture}\n\n` : ''}Create a project plan.\n\nDeadline: ${fd.deadline || 'Flexible'}\nTeam: ${fd.teamSize || 'Just me'}\nWork style: ${fd.workStyle || 'Part-time'}\n\nProvide:\n1. Phases with milestones\n2. Task breakdown\n3. Time estimates\n4. Dependencies\n5. Risk factors`,
       },
     ];
 
@@ -755,417 +345,122 @@ Please provide:
     ];
 
     // ============================================
-    // COMPONENTS
+    // REUSABLE COMPONENTS
     // ============================================
-
     const Button = ({ children, variant = 'primary', size = 'md', disabled, loading, onClick, style = {} }) => {
       const [hovered, setHovered] = useState(false);
-
-      const variantStyles = {
-        primary: styles.buttonPrimary,
-        secondary: styles.buttonSecondary,
-        ghost: styles.buttonGhost,
-        success: styles.buttonSuccess,
-      };
-
-      const baseStyle = {
-        ...styles.button,
-        ...variantStyles[variant],
-        ...(size === 'sm' ? { padding: '8px 16px', fontSize: '13px' } : {}),
-        ...(size === 'lg' ? { padding: '16px 32px', fontSize: '16px' } : {}),
-        ...(disabled || loading ? { opacity: 0.5, cursor: 'not-allowed' } : {}),
-        ...(hovered && !disabled ? { transform: 'translateY(-1px)', opacity: 0.9 } : {}),
-        ...style,
-      };
-
+      const vs = { primary: styles.buttonPrimary, secondary: styles.buttonSecondary, ghost: styles.buttonGhost, success: styles.buttonSuccess };
       return (
         <button
-          style={baseStyle}
-          disabled={disabled || loading}
-          onClick={onClick}
-          onMouseEnter={() => setHovered(true)}
-          onMouseLeave={() => setHovered(false)}
-        >
-          {loading ? <Icons.Loader /> : children}
-        </button>
+          style={{ ...styles.button, ...vs[variant], ...(size === 'sm' ? { padding: '8px 16px', fontSize: '13px' } : {}), ...(size === 'lg' ? { padding: '16px 32px', fontSize: '16px' } : {}), ...(disabled || loading ? { opacity: 0.5, cursor: 'not-allowed' } : {}), ...(hovered && !disabled ? { transform: 'translateY(-1px)', opacity: 0.9 } : {}), ...style }}
+          disabled={disabled || loading} onClick={onClick}
+          onMouseEnter={() => setHovered(true)} onMouseLeave={() => setHovered(false)}
+        >{loading ? <Icons.Loader /> : children}</button>
       );
     };
 
-    const Input = ({ label, type = 'text', placeholder, value, onChange, options, style = {} }) => {
+    const Input = ({ label, type = 'text', placeholder, value, onChange, options, style: s = {} }) => {
       const [focused, setFocused] = useState(false);
-
-      if (type === 'select') {
-        return (
-          <div style={{ marginBottom: '20px' }}>
-            {label && <label style={styles.label}>{label}</label>}
-            <select
-              style={{ ...styles.input, ...(focused ? styles.inputFocus : {}), cursor: 'pointer', ...style }}
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-            >
-              <option value="">Select an option</option>
-              {options.map((opt) => (
-                <option key={opt} value={opt}>{opt}</option>
-              ))}
-            </select>
-          </div>
-        );
-      }
-
-      if (type === 'textarea') {
-        return (
-          <div style={{ marginBottom: '20px' }}>
-            {label && <label style={styles.label}>{label}</label>}
-            <textarea
-              style={{ ...styles.input, ...styles.textarea, ...(focused ? styles.inputFocus : {}), ...style }}
-              placeholder={placeholder}
-              value={value}
-              onChange={(e) => onChange(e.target.value)}
-              onFocus={() => setFocused(true)}
-              onBlur={() => setFocused(false)}
-            />
-          </div>
-        );
-      }
-
+      const base = { ...styles.input, ...(focused ? styles.inputFocus : {}), ...s };
+      if (type === 'select') return (
+        <div style={{ marginBottom: '20px' }}>
+          {label && <label style={styles.label}>{label}</label>}
+          <select style={{ ...base, cursor: 'pointer' }} value={value} onChange={e => onChange(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)}>
+            <option value="">Select an option</option>
+            {options.map(o => <option key={o} value={o}>{o}</option>)}
+          </select>
+        </div>
+      );
+      if (type === 'textarea') return (
+        <div style={{ marginBottom: '20px' }}>
+          {label && <label style={styles.label}>{label}</label>}
+          <textarea style={{ ...base, ...styles.textarea }} placeholder={placeholder} value={value} onChange={e => onChange(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
+        </div>
+      );
       return (
         <div style={{ marginBottom: '20px' }}>
           {label && <label style={styles.label}>{label}</label>}
-          <input
-            type={type}
-            style={{ ...styles.input, ...(focused ? styles.inputFocus : {}), ...style }}
-            placeholder={placeholder}
-            value={value}
-            onChange={(e) => onChange(e.target.value)}
-            onFocus={() => setFocused(true)}
-            onBlur={() => setFocused(false)}
-          />
+          <input type={type} style={base} placeholder={placeholder} value={value} onChange={e => onChange(e.target.value)} onFocus={() => setFocused(true)} onBlur={() => setFocused(false)} />
         </div>
       );
     };
 
-    // Pipeline Progress Bar
-    const PipelineProgress = ({ projectContext, currentAgent, onAgentClick }) => {
-      return (
-        <div style={{ 
-          display: 'flex', 
-          alignItems: 'center', 
-          gap: '8px', 
-          padding: '16px 24px',
-          background: 'var(--bg-secondary)',
-          borderRadius: 'var(--radius-lg)',
-          marginBottom: '32px',
-          overflowX: 'auto',
-        }}>
-          {AGENTS.map((agent, idx) => {
-            const isComplete = !!projectContext[agent.id];
-            const isCurrent = currentAgent === agent.id;
-            const Icon = agent.icon;
-
-            return (
-              <React.Fragment key={agent.id}>
-                {idx > 0 && (
-                  <div style={{
-                    width: '40px',
-                    height: '2px',
-                    background: isComplete || isCurrent ? agent.color : 'var(--border)',
-                    flexShrink: 0,
-                  }} />
-                )}
-                <button
-                  onClick={() => onAgentClick(agent.id)}
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'center',
-                    gap: '8px',
-                    padding: '12px 16px',
-                    background: isCurrent ? agent.bgColor : 'transparent',
-                    border: `2px solid ${isCurrent ? agent.color : isComplete ? agent.color : 'var(--border)'}`,
-                    borderRadius: 'var(--radius-md)',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s ease',
-                    minWidth: '100px',
-                  }}
-                >
-                  <div style={{
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '50%',
-                    background: isComplete ? agent.color : agent.bgColor,
-                    color: isComplete ? 'white' : agent.color,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
-                    {isComplete ? <Icons.Check /> : <Icon />}
-                  </div>
-                  <span style={{
-                    fontSize: '12px',
-                    fontWeight: 600,
-                    color: isCurrent ? agent.color : isComplete ? 'var(--text-primary)' : 'var(--text-muted)',
-                    whiteSpace: 'nowrap',
-                  }}>
-                    {agent.shortName}
-                  </span>
-                </button>
-              </React.Fragment>
-            );
-          })}
-        </div>
-      );
-    };
-
-    // Context Summary Panel
-    const ContextSummary = ({ projectContext, onViewOutput }) => {
-      const completedAgents = AGENTS.filter(a => projectContext[a.id]);
-      
-      if (completedAgents.length === 0) return null;
-
-      return (
-        <div style={{
-          background: 'var(--bg-secondary)',
-          borderRadius: 'var(--radius-lg)',
-          border: '1px solid var(--border)',
-          padding: '20px',
-          marginBottom: '24px',
-        }}>
-          <h4 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '16px' }}>
-            Project Context ({completedAgents.length}/{AGENTS.length} stages complete)
-          </h4>
-          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
-            {completedAgents.map(agent => {
-              const Icon = agent.icon;
-              return (
-                <button
-                  key={agent.id}
-                  onClick={() => onViewOutput(agent.id)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '6px',
-                    padding: '6px 12px',
-                    background: agent.bgColor,
-                    border: `1px solid ${agent.color}`,
-                    borderRadius: '100px',
-                    color: agent.color,
-                    fontSize: '13px',
-                    fontWeight: 500,
-                    cursor: 'pointer',
-                  }}
-                >
-                  <Icon /> {agent.shortName}
-                </button>
-              );
-            })}
-          </div>
-        </div>
-      );
-    };
-
-    // Output Modal
-    const OutputModal = ({ agent, content, onClose }) => {
-      if (!agent) return null;
-      const Icon = agent.icon;
-
-      return (
-        <div style={{
-          position: 'fixed',
-          top: 0,
-          left: 0,
-          right: 0,
-          bottom: 0,
-          background: 'rgba(0,0,0,0.8)',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          zIndex: 1000,
-          padding: '24px',
-        }} onClick={onClose}>
-          <div style={{
-            background: 'var(--bg-secondary)',
-            borderRadius: 'var(--radius-xl)',
-            border: '1px solid var(--border)',
-            maxWidth: '800px',
-            width: '100%',
-            maxHeight: '80vh',
-            overflow: 'hidden',
-            display: 'flex',
-            flexDirection: 'column',
-          }} onClick={e => e.stopPropagation()}>
-            <div style={{
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              padding: '20px 24px',
-              borderBottom: '1px solid var(--border)',
-            }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  borderRadius: 'var(--radius-md)',
-                  background: agent.bgColor,
-                  color: agent.color,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                }}>
-                  <Icon />
-                </div>
-                <h3 style={{ fontSize: '18px', fontWeight: 600 }}>{agent.name} Output</h3>
-              </div>
-              <Button variant="ghost" size="sm" onClick={onClose}>Close</Button>
-            </div>
-            <div style={{
-              padding: '24px',
-              overflow: 'auto',
-              flex: 1,
-            }}>
-              <pre style={{
-                whiteSpace: 'pre-wrap',
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: '14px',
-                lineHeight: 1.7,
-                color: 'var(--text-primary)',
-              }}>
-                {content}
-              </pre>
-            </div>
-          </div>
-        </div>
-      );
-    };
-
-    // Sidebar
-    const Sidebar = ({ currentView, setCurrentView, currentProject, user, onLogout }) => {
-      const [hoveredItem, setHoveredItem] = useState(null);
-
-      const NavItem = ({ id, icon: Icon, label, badge }) => {
-        const isActive = currentView === id;
-        const isHovered = hoveredItem === id;
-
-        return (
-          <button
-            style={{
-              ...styles.navItem,
-              ...(isActive ? styles.navItemActive : {}),
-              ...(isHovered && !isActive ? styles.navItemHover : {}),
-            }}
-            onClick={() => setCurrentView(id)}
-            onMouseEnter={() => setHoveredItem(id)}
-            onMouseLeave={() => setHoveredItem(null)}
-          >
-            <Icon />
-            <span style={{ flex: 1 }}>{label}</span>
-            {badge && (
-              <span style={{ ...styles.badge, ...styles.badgeSuccess, padding: '2px 8px' }}>{badge}</span>
-            )}
-          </button>
-        );
-      };
-
-      return (
-        <div style={styles.sidebar}>
-          <div style={styles.logo}>
-            <div style={styles.logoText}>AI App Helper</div>
-          </div>
-
-          <nav style={styles.nav}>
-            <div style={styles.navSection}>
-              <div style={styles.navLabel}>Main</div>
-              <NavItem id="dashboard" icon={Icons.Sparkles} label="Dashboard" />
-              <NavItem id="projects" icon={Icons.Folder} label="My Projects" />
-            </div>
-
-            {currentProject && (
-              <div style={styles.navSection}>
-                <div style={styles.navLabel}>Current Project</div>
-                <NavItem id="workflow" icon={Icons.Workflow} label="Workflow" />
-                {AGENTS.map((agent) => (
-                  <NavItem 
-                    key={agent.id} 
-                    id={`agent-${agent.id}`} 
-                    icon={agent.icon} 
-                    label={agent.name}
-                    badge={currentProject.context?.[agent.id] ? '✓' : null}
-                  />
-                ))}
-              </div>
-            )}
-
-            <div style={styles.navSection}>
-              <div style={styles.navLabel}>Account</div>
-              <NavItem id="settings" icon={Icons.Settings} label="Settings" />
-            </div>
-          </nav>
-
-          <div style={{ padding: '16px', borderTop: '1px solid var(--border)' }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
-              <div style={{
-                width: '36px',
-                height: '36px',
-                borderRadius: '50%',
-                background: 'var(--gradient-1)',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-              }}>
-                <Icons.User />
-              </div>
-              <div style={{ flex: 1, overflow: 'hidden' }}>
-                <div style={{ fontSize: '14px', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
-                  {user?.email || 'Demo User'}
-                </div>
-              </div>
-            </div>
-            <Button variant="ghost" size="sm" onClick={onLogout} style={{ width: '100%', justifyContent: 'flex-start' }}>
-              <Icons.LogOut /> Sign Out
-            </Button>
-          </div>
-        </div>
-      );
-    };
-
-    // Auth Screen
+    // ============================================
+    // AUTH SCREEN (Real Supabase Auth)
+    // ============================================
     const AuthScreen = ({ onAuth }) => {
-      const [isLogin, setIsLogin] = useState(true);
+      const [mode, setMode] = useState('login'); // login, signup, forgot, check-email
       const [email, setEmail] = useState('');
       const [password, setPassword] = useState('');
+      const [confirmPassword, setConfirmPassword] = useState('');
       const [loading, setLoading] = useState(false);
       const [error, setError] = useState('');
 
-      const handleSubmit = async (e) => {
+      const handleLogin = async (e) => {
         e.preventDefault();
-        setLoading(true);
-        setError('');
-
-        if (!supabase) {
-          setTimeout(() => {
-            onAuth({ email: email || 'demo@example.com' });
-            setLoading(false);
-          }, 800);
-          return;
-        }
-
+        if (!email || !password) { setError('Please fill in all fields'); return; }
+        setLoading(true); setError('');
         try {
-          if (isLogin) {
-            const { data, error } = await supabase.auth.signInWithPassword({ email, password });
-            if (error) throw error;
-            onAuth(data.user);
+          const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+          if (error) throw error;
+          onAuth(data.user);
+        } catch (err) {
+          setError(err.message);
+        } finally { setLoading(false); }
+      };
+
+      const handleSignup = async (e) => {
+        e.preventDefault();
+        if (!email || !password || !confirmPassword) { setError('Please fill in all fields'); return; }
+        if (password !== confirmPassword) { setError('Passwords do not match'); return; }
+        if (password.length < 6) { setError('Password must be at least 6 characters'); return; }
+        setLoading(true); setError('');
+        try {
+          const { data, error } = await supabase.auth.signUp({ email, password });
+          if (error) throw error;
+          if (data.user && !data.session) {
+            setMode('check-email');
           } else {
-            const { data, error } = await supabase.auth.signUp({ email, password });
-            if (error) throw error;
             onAuth(data.user);
           }
         } catch (err) {
           setError(err.message);
-        } finally {
-          setLoading(false);
-        }
+        } finally { setLoading(false); }
       };
+
+      const handleForgotPassword = async (e) => {
+        e.preventDefault();
+        if (!email) { setError('Please enter your email'); return; }
+        setLoading(true); setError('');
+        try {
+          const { error } = await supabase.auth.resetPasswordForEmail(email, {
+            redirectTo: window.location.origin,
+          });
+          if (error) throw error;
+          setMode('check-email');
+        } catch (err) {
+          setError(err.message);
+        } finally { setLoading(false); }
+      };
+
+      if (mode === 'check-email') {
+        return (
+          <div style={styles.authContainer}>
+            <div style={styles.authCard} className="animate-fade-in">
+              <div style={{ textAlign: 'center' }}>
+                <div style={{ color: 'var(--accent)', marginBottom: '16px' }}><Icons.Mail /></div>
+                <div style={{ ...styles.logoText, fontSize: '28px', marginBottom: '16px' }}>Check your email</div>
+                <p style={{ color: 'var(--text-secondary)', marginBottom: '32px' }}>
+                  We've sent a confirmation link to <strong style={{ color: 'var(--text-primary)' }}>{email}</strong>. Click the link in the email to continue.
+                </p>
+                <Button variant="secondary" onClick={() => { setMode('login'); setError(''); }}>
+                  Back to Sign In
+                </Button>
+              </div>
+            </div>
+          </div>
+        );
+      }
 
       return (
         <div style={styles.authContainer}>
@@ -1173,141 +468,227 @@ Please provide:
             <div style={{ textAlign: 'center', marginBottom: '32px' }}>
               <div style={{ ...styles.logoText, fontSize: '32px', marginBottom: '8px' }}>AI App Helper</div>
               <p style={{ color: 'var(--text-secondary)' }}>
-                {isLogin ? 'Welcome back!' : 'Create your account'}
+                {mode === 'login' ? 'Welcome back! Sign in to continue.' : mode === 'signup' ? 'Create your free account.' : 'Reset your password.'}
               </p>
             </div>
 
-            {!supabase && (
-              <div style={{
-                background: 'var(--accent-muted)',
-                border: '1px solid var(--accent)',
-                borderRadius: 'var(--radius-md)',
-                padding: '12px 16px',
-                marginBottom: '24px',
-                fontSize: '13px',
-                color: 'var(--accent)',
-              }}>
-                <strong>Demo Mode:</strong> Click sign in to try the demo.
-              </div>
-            )}
-
             {error && (
-              <div style={{
-                background: 'rgba(239, 68, 68, 0.15)',
-                border: '1px solid var(--error)',
-                borderRadius: 'var(--radius-md)',
-                padding: '12px 16px',
-                marginBottom: '24px',
-                fontSize: '13px',
-                color: 'var(--error)',
-              }}>
+              <div style={{ background: 'rgba(239, 68, 68, 0.15)', border: '1px solid var(--error)', borderRadius: 'var(--radius-md)', padding: '12px 16px', marginBottom: '24px', fontSize: '13px', color: 'var(--error)' }}>
                 {error}
               </div>
             )}
 
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={mode === 'login' ? handleLogin : mode === 'signup' ? handleSignup : handleForgotPassword}>
               <Input label="Email" type="email" placeholder="you@example.com" value={email} onChange={setEmail} />
-              <Input label="Password" type="password" placeholder="••••••••" value={password} onChange={setPassword} />
+
+              {mode !== 'forgot' && (
+                <Input label="Password" type="password" placeholder="••••••••" value={password} onChange={setPassword} />
+              )}
+
+              {mode === 'signup' && (
+                <Input label="Confirm Password" type="password" placeholder="••••••••" value={confirmPassword} onChange={setConfirmPassword} />
+              )}
+
+              {mode === 'login' && (
+                <div style={{ textAlign: 'right', marginBottom: '16px' }}>
+                  <button type="button" style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '13px', fontFamily: 'inherit' }} onClick={() => { setMode('forgot'); setError(''); }}>
+                    Forgot password?
+                  </button>
+                </div>
+              )}
+
               <Button variant="primary" loading={loading} style={{ width: '100%', marginTop: '8px' }}>
-                {isLogin ? 'Sign In' : 'Create Account'}
+                {mode === 'login' ? 'Sign In' : mode === 'signup' ? 'Create Account' : 'Send Reset Link'}
               </Button>
             </form>
 
             <div style={{ textAlign: 'center', marginTop: '24px' }}>
-              <button
-                style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit' }}
-                onClick={() => setIsLogin(!isLogin)}
-              >
-                {isLogin ? "Don't have an account? Sign up" : 'Already have an account? Sign in'}
-              </button>
+              {mode === 'login' && (
+                <button style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit' }} onClick={() => { setMode('signup'); setError(''); }}>
+                  Don't have an account? Sign up
+                </button>
+              )}
+              {mode === 'signup' && (
+                <button style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit' }} onClick={() => { setMode('login'); setError(''); }}>
+                  Already have an account? Sign in
+                </button>
+              )}
+              {mode === 'forgot' && (
+                <button style={{ background: 'none', border: 'none', color: 'var(--accent)', cursor: 'pointer', fontSize: '14px', fontFamily: 'inherit' }} onClick={() => { setMode('login'); setError(''); }}>
+                  Back to Sign In
+                </button>
+              )}
             </div>
           </div>
         </div>
       );
     };
 
-    // Skill Level Selector
-    const SkillLevelSelector = ({ selected, onSelect }) => {
+    // ============================================
+    // PIPELINE PROGRESS
+    // ============================================
+    const PipelineProgress = ({ projectContext, currentAgent, onAgentClick }) => (
+      <div style={{ display: 'flex', alignItems: 'center', gap: '8px', padding: '16px 24px', background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', marginBottom: '32px', overflowX: 'auto' }}>
+        {AGENTS.map((agent, idx) => {
+          const isComplete = !!projectContext[agent.id];
+          const isCurrent = currentAgent === agent.id;
+          const Icon = agent.icon;
+          return (
+            <React.Fragment key={agent.id}>
+              {idx > 0 && <div style={{ width: '40px', height: '2px', background: isComplete || isCurrent ? agent.color : 'var(--border)', flexShrink: 0 }} />}
+              <button onClick={() => onAgentClick(agent.id)} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: '8px', padding: '12px 16px', background: isCurrent ? agent.bgColor : 'transparent', border: `2px solid ${isCurrent ? agent.color : isComplete ? agent.color : 'var(--border)'}`, borderRadius: 'var(--radius-md)', cursor: 'pointer', transition: 'all 0.2s ease', minWidth: '100px' }}>
+                <div style={{ width: '32px', height: '32px', borderRadius: '50%', background: isComplete ? agent.color : agent.bgColor, color: isComplete ? 'white' : agent.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                  {isComplete ? <Icons.Check /> : <Icon />}
+                </div>
+                <span style={{ fontSize: '12px', fontWeight: 600, color: isCurrent ? agent.color : isComplete ? 'var(--text-primary)' : 'var(--text-muted)', whiteSpace: 'nowrap' }}>{agent.shortName}</span>
+              </button>
+            </React.Fragment>
+          );
+        })}
+      </div>
+    );
+
+    // ============================================
+    // CONTEXT SUMMARY
+    // ============================================
+    const ContextSummary = ({ projectContext, onViewOutput }) => {
+      const completed = AGENTS.filter(a => projectContext[a.id]);
+      if (completed.length === 0) return null;
       return (
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
-          {SKILL_LEVELS.map((level) => (
-            <div
-              key={level.id}
-              style={{
-                ...styles.card,
-                cursor: 'pointer',
-                borderColor: selected === level.id ? 'var(--accent)' : 'var(--border)',
-                background: selected === level.id ? 'var(--accent-muted)' : 'var(--bg-secondary)',
-                padding: '16px',
-              }}
-              onClick={() => onSelect(level.id)}
-            >
-              <div style={{
-                width: '20px',
-                height: '20px',
-                borderRadius: '50%',
-                border: `2px solid ${selected === level.id ? 'var(--accent)' : 'var(--border-light)'}`,
-                marginBottom: '8px',
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                background: selected === level.id ? 'var(--accent)' : 'transparent',
-              }}>
-                {selected === level.id && <Icons.Check />}
-              </div>
-              <h3 style={{ fontSize: '14px', fontWeight: 600, color: selected === level.id ? 'var(--accent)' : 'var(--text-primary)' }}>
-                {level.name}
-              </h3>
-              <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>{level.description}</p>
-            </div>
-          ))}
+        <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)', padding: '20px', marginBottom: '24px' }}>
+          <h4 style={{ fontSize: '14px', fontWeight: 600, color: 'var(--text-secondary)', marginBottom: '16px' }}>Project Context ({completed.length}/{AGENTS.length} complete)</h4>
+          <div style={{ display: 'flex', flexWrap: 'wrap', gap: '8px' }}>
+            {completed.map(agent => { const Icon = agent.icon; return (
+              <button key={agent.id} onClick={() => onViewOutput(agent.id)} style={{ display: 'flex', alignItems: 'center', gap: '6px', padding: '6px 12px', background: agent.bgColor, border: `1px solid ${agent.color}`, borderRadius: '100px', color: agent.color, fontSize: '13px', fontWeight: 500, cursor: 'pointer' }}>
+                <Icon /> {agent.shortName}
+              </button>
+            ); })}
+          </div>
         </div>
       );
     };
 
-    // Dashboard
-    const Dashboard = ({ setCurrentView, projects, setCurrentProject, createProject }) => {
-      const [showNewProject, setShowNewProject] = useState(false);
-      const [newProjectName, setNewProjectName] = useState('');
+    // ============================================
+    // OUTPUT MODAL
+    // ============================================
+    const OutputModal = ({ agent, content, onClose }) => {
+      if (!agent) return null;
+      const Icon = agent.icon;
+      return (
+        <div style={{ position: 'fixed', top: 0, left: 0, right: 0, bottom: 0, background: 'rgba(0,0,0,0.8)', display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 1000, padding: '24px' }} onClick={onClose}>
+          <div style={{ background: 'var(--bg-secondary)', borderRadius: 'var(--radius-xl)', border: '1px solid var(--border)', maxWidth: '800px', width: '100%', maxHeight: '80vh', overflow: 'hidden', display: 'flex', flexDirection: 'column' }} onClick={e => e.stopPropagation()}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', padding: '20px 24px', borderBottom: '1px solid var(--border)' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+                <div style={{ width: '40px', height: '40px', borderRadius: 'var(--radius-md)', background: agent.bgColor, color: agent.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon /></div>
+                <h3 style={{ fontSize: '18px', fontWeight: 600 }}>{agent.name} Output</h3>
+              </div>
+              <Button variant="ghost" size="sm" onClick={onClose}>Close</Button>
+            </div>
+            <div style={{ padding: '24px', overflow: 'auto', flex: 1 }}>
+              <pre style={{ whiteSpace: 'pre-wrap', fontFamily: "'DM Sans', sans-serif", fontSize: '14px', lineHeight: 1.7, color: 'var(--text-primary)' }}>{content}</pre>
+            </div>
+          </div>
+        </div>
+      );
+    };
 
-      const handleCreate = () => {
-        if (!newProjectName.trim()) return;
-        createProject(newProjectName);
-        setNewProjectName('');
-        setShowNewProject(false);
+    // ============================================
+    // SKILL LEVEL SELECTOR
+    // ============================================
+    const SkillLevelSelector = ({ selected, onSelect }) => (
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '16px' }}>
+        {SKILL_LEVELS.map(level => (
+          <div key={level.id} style={{ ...styles.card, cursor: 'pointer', borderColor: selected === level.id ? 'var(--accent)' : 'var(--border)', background: selected === level.id ? 'var(--accent-muted)' : 'var(--bg-secondary)', padding: '16px' }} onClick={() => onSelect(level.id)}>
+            <div style={{ width: '20px', height: '20px', borderRadius: '50%', border: `2px solid ${selected === level.id ? 'var(--accent)' : 'var(--border-light)'}`, marginBottom: '8px', display: 'flex', alignItems: 'center', justifyContent: 'center', background: selected === level.id ? 'var(--accent)' : 'transparent' }}>
+              {selected === level.id && <Icons.Check />}
+            </div>
+            <h3 style={{ fontSize: '14px', fontWeight: 600, color: selected === level.id ? 'var(--accent)' : 'var(--text-primary)' }}>{level.name}</h3>
+            <p style={{ fontSize: '12px', color: 'var(--text-muted)', marginTop: '2px' }}>{level.description}</p>
+          </div>
+        ))}
+      </div>
+    );
+
+    // ============================================
+    // SIDEBAR
+    // ============================================
+    const Sidebar = ({ currentView, setCurrentView, currentProject, user, onLogout }) => {
+      const [hoveredItem, setHoveredItem] = useState(null);
+      const NavItem = ({ id, icon: Icon, label, badge }) => {
+        const isActive = currentView === id;
+        const isHovered = hoveredItem === id;
+        return (
+          <button style={{ ...styles.navItem, ...(isActive ? styles.navItemActive : {}), ...(isHovered && !isActive ? styles.navItemHover : {}) }}
+            onClick={() => setCurrentView(id)} onMouseEnter={() => setHoveredItem(id)} onMouseLeave={() => setHoveredItem(null)}>
+            <Icon /><span style={{ flex: 1 }}>{label}</span>
+            {badge && <span style={{ ...styles.badge, ...styles.badgeSuccess, padding: '2px 8px' }}>{badge}</span>}
+          </button>
+        );
       };
+      return (
+        <div style={styles.sidebar}>
+          <div style={styles.logo}><div style={styles.logoText}>AI App Helper</div></div>
+          <nav style={styles.nav}>
+            <div style={styles.navSection}>
+              <div style={styles.navLabel}>Main</div>
+              <NavItem id="dashboard" icon={Icons.Sparkles} label="Dashboard" />
+              <NavItem id="projects" icon={Icons.Folder} label="My Projects" />
+            </div>
+            {currentProject && (
+              <div style={styles.navSection}>
+                <div style={styles.navLabel}>Current Project</div>
+                <NavItem id="workflow" icon={Icons.Workflow} label="Workflow" />
+                {AGENTS.map(agent => <NavItem key={agent.id} id={`agent-${agent.id}`} icon={agent.icon} label={agent.name} badge={currentProject.context?.[agent.id] ? '✓' : null} />)}
+              </div>
+            )}
+            <div style={styles.navSection}>
+              <div style={styles.navLabel}>Account</div>
+              <NavItem id="settings" icon={Icons.Settings} label="Settings" />
+            </div>
+          </nav>
+          <div style={{ padding: '16px', borderTop: '1px solid var(--border)' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '12px' }}>
+              <div style={{ width: '36px', height: '36px', borderRadius: '50%', background: 'var(--gradient-1)', display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icons.User /></div>
+              <div style={{ flex: 1, overflow: 'hidden' }}>
+                <div style={{ fontSize: '14px', fontWeight: 500, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{user?.email}</div>
+              </div>
+            </div>
+            <Button variant="ghost" size="sm" onClick={onLogout} style={{ width: '100%', justifyContent: 'flex-start' }}><Icons.LogOut /> Sign Out</Button>
+          </div>
+        </div>
+      );
+    };
 
+    // ============================================
+    // DASHBOARD
+    // ============================================
+    const Dashboard = ({ setCurrentView, projects, setCurrentProject, createProject, loadingProjects }) => {
+      const [showNew, setShowNew] = useState(false);
+      const [name, setName] = useState('');
+      const handleCreate = () => { if (!name.trim()) return; createProject(name); setName(''); setShowNew(false); };
       return (
         <div>
           <div className="animate-fade-in">
             <h1 style={styles.h1}>Welcome back</h1>
-            <p style={{ color: 'var(--text-secondary)', fontSize: '18px', marginBottom: '32px' }}>
-              Start a new project or continue where you left off.
-            </p>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '18px', marginBottom: '32px' }}>Start a new project or continue where you left off.</p>
           </div>
-
           <div style={{ display: 'flex', gap: '16px', marginBottom: '48px' }} className="animate-fade-in stagger-1">
-            <Button variant="primary" onClick={() => setShowNewProject(true)}>
-              <Icons.Plus /> New Project
-            </Button>
+            <Button variant="primary" onClick={() => setShowNew(true)}><Icons.Plus /> New Project</Button>
           </div>
-
-          {showNewProject && (
+          {showNew && (
             <div style={{ ...styles.card, marginBottom: '32px' }} className="animate-fade-in">
               <h3 style={{ ...styles.h2, marginBottom: '16px' }}>Create New Project</h3>
               <div style={{ display: 'flex', gap: '12px', alignItems: 'flex-end' }}>
-                <div style={{ flex: 1 }}>
-                  <Input placeholder="My Awesome App" value={newProjectName} onChange={setNewProjectName} style={{ marginBottom: 0 }} />
-                </div>
+                <div style={{ flex: 1 }}><Input placeholder="My Awesome App" value={name} onChange={setName} style={{ marginBottom: 0 }} /></div>
                 <Button variant="primary" onClick={handleCreate}>Create</Button>
-                <Button variant="secondary" onClick={() => setShowNewProject(false)}>Cancel</Button>
+                <Button variant="secondary" onClick={() => setShowNew(false)}>Cancel</Button>
               </div>
             </div>
           )}
-
           <h2 style={{ ...styles.h2, marginBottom: '24px' }} className="animate-fade-in stagger-2">Your Projects</h2>
-
-          {projects.length === 0 ? (
+          {loadingProjects ? (
+            <div style={{ textAlign: 'center', padding: '64px', color: 'var(--text-muted)' }}><Icons.Loader /><p style={{ marginTop: '16px' }}>Loading projects...</p></div>
+          ) : projects.length === 0 ? (
             <div style={{ ...styles.card, textAlign: 'center', padding: '64px' }} className="animate-fade-in stagger-3">
               <div style={{ color: 'var(--text-muted)', marginBottom: '16px' }}><Icons.Folder /></div>
               <h3 style={styles.h3}>No projects yet</h3>
@@ -1316,44 +697,16 @@ Please provide:
           ) : (
             <div style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
               {projects.map((project, idx) => {
-                const completedStages = AGENTS.filter(a => project.context?.[a.id]).length;
+                const completed = AGENTS.filter(a => project.context?.[a.id]).length;
                 return (
-                  <div
-                    key={project.id}
-                    style={{ ...styles.card, cursor: 'pointer' }}
-                    className={`animate-fade-in stagger-${Math.min(idx + 3, 6)}`}
-                    onClick={() => {
-                      setCurrentProject(project);
-                      setCurrentView('workflow');
-                    }}
-                  >
+                  <div key={project.id} style={{ ...styles.card, cursor: 'pointer' }} className={`animate-fade-in stagger-${Math.min(idx + 3, 6)}`}
+                    onClick={() => { setCurrentProject(project); setCurrentView('workflow'); }}>
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                      <div>
-                        <h3 style={styles.h3}>{project.name}</h3>
-                        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                          {completedStages}/{AGENTS.length} stages complete
-                        </p>
-                      </div>
-                      {completedStages === AGENTS.length ? (
-                        <span style={{ ...styles.badge, ...styles.badgeSuccess }}>Complete</span>
-                      ) : completedStages > 0 ? (
-                        <span style={{ ...styles.badge, ...styles.badgeWarning }}>In Progress</span>
-                      ) : (
-                        <span style={{ ...styles.badge, ...styles.badgeMuted }}>New</span>
-                      )}
+                      <div><h3 style={styles.h3}>{project.name}</h3><p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>{completed}/{AGENTS.length} stages complete</p></div>
+                      {completed === AGENTS.length ? <span style={{ ...styles.badge, ...styles.badgeSuccess }}>Complete</span> : completed > 0 ? <span style={{ ...styles.badge, ...styles.badgeWarning }}>In Progress</span> : <span style={{ ...styles.badge, ...styles.badgeMuted }}>New</span>}
                     </div>
                     <div style={{ display: 'flex', gap: '4px', marginTop: '16px' }}>
-                      {AGENTS.map(agent => (
-                        <div
-                          key={agent.id}
-                          style={{
-                            flex: 1,
-                            height: '4px',
-                            borderRadius: '2px',
-                            background: project.context?.[agent.id] ? agent.color : 'var(--border)',
-                          }}
-                        />
-                      ))}
+                      {AGENTS.map(a => <div key={a.id} style={{ flex: 1, height: '4px', borderRadius: '2px', background: project.context?.[a.id] ? a.color : 'var(--border)' }} />)}
                     </div>
                   </div>
                 );
@@ -1364,101 +717,42 @@ Please provide:
       );
     };
 
-    // Workflow View
-    const WorkflowView = ({ project, updateProject, setCurrentView, skillLevel }) => {
-      const completedAgents = AGENTS.filter(a => project.context?.[a.id]);
+    // ============================================
+    // WORKFLOW VIEW
+    // ============================================
+    const WorkflowView = ({ project, setCurrentView }) => {
+      const completed = AGENTS.filter(a => project.context?.[a.id]);
       const nextAgent = AGENTS.find(a => !project.context?.[a.id]);
-
       return (
         <div>
           <div className="animate-fade-in">
             <h1 style={styles.h1}>{project.name}</h1>
             <p style={{ color: 'var(--text-secondary)', fontSize: '18px', marginBottom: '32px' }}>
-              {completedAgents.length === AGENTS.length 
-                ? 'All stages complete! Your app plan is ready.'
-                : `${completedAgents.length}/${AGENTS.length} stages complete`}
+              {completed.length === AGENTS.length ? 'All stages complete!' : `${completed.length}/${AGENTS.length} stages complete`}
             </p>
           </div>
-
-          <PipelineProgress 
-            projectContext={project.context || {}} 
-            currentAgent={null}
-            onAgentClick={(id) => setCurrentView(`agent-${id}`)}
-          />
-
+          <PipelineProgress projectContext={project.context || {}} currentAgent={null} onAgentClick={id => setCurrentView(`agent-${id}`)} />
           <div style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
             {AGENTS.map((agent, idx) => {
               const isComplete = project.context?.[agent.id];
               const isNext = agent.id === nextAgent?.id;
               const Icon = agent.icon;
-
               return (
-                <div
-                  key={agent.id}
-                  className={`animate-fade-in stagger-${Math.min(idx + 1, 6)}`}
-                  style={{
-                    ...styles.card,
-                    cursor: 'pointer',
-                    borderColor: isComplete ? agent.color : isNext ? 'var(--accent)' : 'var(--border)',
-                    position: 'relative',
-                  }}
-                  onClick={() => setCurrentView(`agent-${agent.id}`)}
-                >
-                  {isNext && (
-                    <div style={{
-                      position: 'absolute',
-                      top: '-10px',
-                      right: '16px',
-                      background: 'var(--accent)',
-                      color: 'white',
-                      padding: '4px 12px',
-                      borderRadius: '100px',
-                      fontSize: '11px',
-                      fontWeight: 600,
-                    }}>
-                      NEXT STEP
-                    </div>
-                  )}
+                <div key={agent.id} className={`animate-fade-in stagger-${Math.min(idx + 1, 6)}`}
+                  style={{ ...styles.card, cursor: 'pointer', borderColor: isComplete ? agent.color : isNext ? 'var(--accent)' : 'var(--border)', position: 'relative' }}
+                  onClick={() => setCurrentView(`agent-${agent.id}`)}>
+                  {isNext && <div style={{ position: 'absolute', top: '-10px', right: '16px', background: 'var(--accent)', color: 'white', padding: '4px 12px', borderRadius: '100px', fontSize: '11px', fontWeight: 600 }}>NEXT STEP</div>}
                   <div style={{ display: 'flex', alignItems: 'flex-start', gap: '16px' }}>
-                    <div style={{
-                      width: '48px',
-                      height: '48px',
-                      borderRadius: 'var(--radius-md)',
-                      background: isComplete ? agent.color : agent.bgColor,
-                      color: isComplete ? 'white' : agent.color,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
+                    <div style={{ width: '48px', height: '48px', borderRadius: 'var(--radius-md)', background: isComplete ? agent.color : agent.bgColor, color: isComplete ? 'white' : agent.color, display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
                       {isComplete ? <Icons.Check /> : <Icon />}
                     </div>
                     <div style={{ flex: 1 }}>
-                      <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                        <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>
-                          STEP {agent.order}
-                        </span>
-                      </div>
+                      <span style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>STEP {agent.order}</span>
                       <h3 style={{ ...styles.h3, marginTop: '4px' }}>{agent.name}</h3>
-                      <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>
-                        {agent.description}
-                      </p>
+                      <p style={{ fontSize: '13px', color: 'var(--text-secondary)', marginTop: '4px' }}>{agent.description}</p>
                     </div>
                   </div>
-                  {isComplete && (
-                    <div style={{
-                      marginTop: '16px',
-                      padding: '12px',
-                      background: 'var(--bg-elevated)',
-                      borderRadius: 'var(--radius-md)',
-                      fontSize: '13px',
-                      color: 'var(--text-secondary)',
-                      maxHeight: '80px',
-                      overflow: 'hidden',
-                    }}>
-                      {project.context[agent.id].substring(0, 200)}...
-                    </div>
-                  )}
+                  {isComplete && <div style={{ marginTop: '16px', padding: '12px', background: 'var(--bg-elevated)', borderRadius: 'var(--radius-md)', fontSize: '13px', color: 'var(--text-secondary)', maxHeight: '80px', overflow: 'hidden' }}>{project.context[agent.id].substring(0, 200)}...</div>}
                 </div>
               );
             })}
@@ -1467,7 +761,9 @@ Please provide:
       );
     };
 
-    // Agent View (with connected context)
+    // ============================================
+    // AGENT VIEW
+    // ============================================
     const AgentView = ({ agent, project, updateProject, skillLevel, setCurrentView }) => {
       const [formData, setFormData] = useState({});
       const [response, setResponse] = useState(project.context?.[agent.id] || '');
@@ -1475,159 +771,54 @@ Please provide:
       const [error, setError] = useState('');
       const [viewingAgent, setViewingAgent] = useState(null);
 
-      const updateField = (name, value) => {
-        setFormData((prev) => ({ ...prev, [name]: value }));
-      };
-
       const handleSubmit = async () => {
-        setLoading(true);
-        setError('');
-        setResponse('');
-
-        const projectContext = project.context || {};
-        const systemPrompt = agent.buildPrompt(skillLevel, projectContext);
-        const userMessage = agent.buildUserMessage(formData, projectContext);
-
-        const apiUrl = '/api/messages';
-
+        setLoading(true); setError(''); setResponse('');
+        const ctx = project.context || {};
+        const systemPrompt = agent.buildPrompt(skillLevel);
+        const userMessage = agent.buildUserMessage(formData, ctx);
         try {
-          const res = await fetch(apiUrl, {
+          const res = await fetch('/api/messages', {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              model: 'claude-sonnet-4-20250514',
-              max_tokens: 4096,
-              system: systemPrompt,
-              messages: [{ role: 'user', content: userMessage }],
-            }),
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ model: 'claude-sonnet-4-20250514', max_tokens: 4096, system: systemPrompt, messages: [{ role: 'user', content: userMessage }] }),
           });
-
-          if (!res.ok) {
-            const errData = await res.json().catch(() => ({}));
-            throw new Error(errData.error?.message || `API error: ${res.status}`);
-          }
-
+          if (!res.ok) { const d = await res.json().catch(() => ({})); throw new Error(d.error?.message || `API error: ${res.status}`); }
           const data = await res.json();
           const output = data.content[0].text;
           setResponse(output);
-
-          // Save to project context
-          updateProject({
-            ...project,
-            context: {
-              ...project.context,
-              [agent.id]: output,
-            },
-          });
+          updateProject({ ...project, context: { ...project.context, [agent.id]: output } });
         } catch (err) {
-          if (err.message === 'Failed to fetch') {
-            setError('Network error: Could not reach the API. Please check your connection and try again.');
-          } else {
-            setError(err.message);
-          }
-        } finally {
-          setLoading(false);
-        }
-      };
-
-      const goToNextAgent = () => {
-        if (agent.nextAgent) {
-          setCurrentView(`agent-${agent.nextAgent}`);
-        }
-      };
-
-      const goToPrevAgent = () => {
-        if (agent.prevAgent) {
-          setCurrentView(`agent-${agent.prevAgent}`);
-        }
+          setError(err.message === 'Failed to fetch' ? 'Network error. Please try again.' : err.message);
+        } finally { setLoading(false); }
       };
 
       const Icon = agent.icon;
-      const hasExistingOutput = !!project.context?.[agent.id];
+      const hasOutput = !!project.context?.[agent.id];
 
       return (
         <div>
-          <button
-            onClick={() => setCurrentView('workflow')}
-            style={{ ...styles.button, ...styles.buttonGhost, padding: '8px 0', marginBottom: '24px' }}
-          >
-            <Icons.ChevronLeft /> Back to Workflow
-          </button>
-
-          <PipelineProgress 
-            projectContext={project.context || {}} 
-            currentAgent={agent.id}
-            onAgentClick={(id) => setCurrentView(`agent-${id}`)}
-          />
-
+          <button onClick={() => setCurrentView('workflow')} style={{ ...styles.button, ...styles.buttonGhost, padding: '8px 0', marginBottom: '24px' }}><Icons.ChevronLeft /> Back to Workflow</button>
+          <PipelineProgress projectContext={project.context || {}} currentAgent={agent.id} onAgentClick={id => setCurrentView(`agent-${id}`)} />
           <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '24px' }} className="animate-fade-in">
-            <div style={{
-              width: '56px',
-              height: '56px',
-              borderRadius: 'var(--radius-md)',
-              background: agent.bgColor,
-              color: agent.color,
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-            }}>
-              <Icon />
-            </div>
+            <div style={{ width: '56px', height: '56px', borderRadius: 'var(--radius-md)', background: agent.bgColor, color: agent.color, display: 'flex', alignItems: 'center', justifyContent: 'center' }}><Icon /></div>
             <div>
               <div style={{ fontSize: '12px', color: 'var(--text-muted)', fontWeight: 600 }}>STEP {agent.order} OF {AGENTS.length}</div>
               <h1 style={{ ...styles.h1, fontSize: '32px', marginBottom: '4px' }}>{agent.name}</h1>
             </div>
           </div>
-
-          <ContextSummary 
-            projectContext={project.context || {}} 
-            onViewOutput={(id) => setViewingAgent(AGENTS.find(a => a.id === id))}
-          />
-
+          <ContextSummary projectContext={project.context || {}} onViewOutput={id => setViewingAgent(AGENTS.find(a => a.id === id))} />
           <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '32px' }}>
             <div className="animate-fade-in stagger-1">
               <div style={styles.card}>
                 <h3 style={{ ...styles.h2, marginBottom: '24px' }}>Input</h3>
-                {agent.fields.map((field) => (
-                  <Input
-                    key={field.name}
-                    label={field.label}
-                    type={field.type}
-                    placeholder={field.placeholder}
-                    options={field.options}
-                    value={formData[field.name] || ''}
-                    onChange={(val) => updateField(field.name, val)}
-                  />
-                ))}
-
-                <div style={{ display: 'flex', gap: '12px', marginTop: '8px' }}>
-                  <Button variant="primary" loading={loading} onClick={handleSubmit}>
-                    <Icons.Sparkles /> {hasExistingOutput ? 'Regenerate' : 'Generate'}
-                  </Button>
-                </div>
-
-                {error && (
-                  <div style={{
-                    marginTop: '16px',
-                    padding: '12px 16px',
-                    background: 'rgba(239, 68, 68, 0.15)',
-                    border: '1px solid var(--error)',
-                    borderRadius: 'var(--radius-md)',
-                    color: 'var(--error)',
-                    fontSize: '13px',
-                  }}>
-                    {error}
-                  </div>
-                )}
+                {agent.fields.map(f => <Input key={f.name} label={f.label} type={f.type} placeholder={f.placeholder} options={f.options} value={formData[f.name] || ''} onChange={v => setFormData(p => ({ ...p, [f.name]: v }))} />)}
+                <Button variant="primary" loading={loading} onClick={handleSubmit} style={{ marginTop: '8px' }}><Icons.Sparkles /> {hasOutput ? 'Regenerate' : 'Generate'}</Button>
+                {error && <div style={{ marginTop: '16px', padding: '12px 16px', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid var(--error)', borderRadius: 'var(--radius-md)', color: 'var(--error)', fontSize: '13px' }}>{error}</div>}
               </div>
             </div>
-
             <div className="animate-fade-in stagger-2">
               <div style={{ ...styles.card, minHeight: '400px', display: 'flex', flexDirection: 'column' }}>
                 <h3 style={{ ...styles.h2, marginBottom: '24px' }}>Output</h3>
-
                 <div style={{ flex: 1 }}>
                   {loading ? (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', color: 'var(--text-muted)' }}>
@@ -1635,146 +826,59 @@ Please provide:
                       <p style={{ marginTop: '16px' }}>Generating with project context...</p>
                     </div>
                   ) : response ? (
-                    <div style={{
-                      whiteSpace: 'pre-wrap',
-                      fontSize: '14px',
-                      lineHeight: 1.7,
-                      color: 'var(--text-primary)',
-                      maxHeight: '400px',
-                      overflow: 'auto',
-                    }}>
-                      {response}
-                    </div>
+                    <div style={{ whiteSpace: 'pre-wrap', fontSize: '14px', lineHeight: 1.7, color: 'var(--text-primary)', maxHeight: '400px', overflow: 'auto' }}>{response}</div>
                   ) : (
                     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', height: '300px', color: 'var(--text-muted)', textAlign: 'center' }}>
-                      <Icons.Sparkles />
-                      <p style={{ marginTop: '16px' }}>
-                        {Object.keys(project.context || {}).length > 0 
-                          ? 'Previous stages will be used as context automatically'
-                          : 'Fill out the form and click Generate'}
-                      </p>
+                      <Icons.Sparkles /><p style={{ marginTop: '16px' }}>{Object.keys(project.context || {}).length > 0 ? 'Previous stages will be used as context' : 'Fill out the form and click Generate'}</p>
                     </div>
                   )}
                 </div>
-
                 {response && (
-                  <div style={{ 
-                    display: 'flex', 
-                    gap: '12px', 
-                    marginTop: '24px', 
-                    paddingTop: '24px', 
-                    borderTop: '1px solid var(--border)' 
-                  }}>
-                    {agent.prevAgent && (
-                      <Button variant="ghost" onClick={goToPrevAgent}>
-                        <Icons.ChevronLeft /> Previous
-                      </Button>
-                    )}
+                  <div style={{ display: 'flex', gap: '12px', marginTop: '24px', paddingTop: '24px', borderTop: '1px solid var(--border)' }}>
+                    {agent.prevAgent && <Button variant="ghost" onClick={() => setCurrentView(`agent-${agent.prevAgent}`)}><Icons.ChevronLeft /> Previous</Button>}
                     <div style={{ flex: 1 }} />
-                    {agent.nextAgent && (
-                      <Button variant="success" onClick={goToNextAgent}>
-                        Continue to {AGENTS.find(a => a.id === agent.nextAgent)?.shortName} <Icons.ChevronRight />
-                      </Button>
-                    )}
-                    {!agent.nextAgent && (
-                      <Button variant="success" onClick={() => setCurrentView('workflow')}>
-                        <Icons.Check /> Complete
-                      </Button>
-                    )}
+                    {agent.nextAgent ? <Button variant="success" onClick={() => setCurrentView(`agent-${agent.nextAgent}`)}>Continue to {AGENTS.find(a => a.id === agent.nextAgent)?.shortName} <Icons.ChevronRight /></Button>
+                    : <Button variant="success" onClick={() => setCurrentView('workflow')}><Icons.Check /> Complete</Button>}
                   </div>
                 )}
               </div>
             </div>
           </div>
-
-          {viewingAgent && (
-            <OutputModal 
-              agent={viewingAgent} 
-              content={project.context?.[viewingAgent.id]} 
-              onClose={() => setViewingAgent(null)} 
-            />
-          )}
+          {viewingAgent && <OutputModal agent={viewingAgent} content={project.context?.[viewingAgent.id]} onClose={() => setViewingAgent(null)} />}
         </div>
       );
     };
 
-    // Projects View
-    const ProjectsView = ({ projects, setProjects, setCurrentProject, setCurrentView }) => {
-      const [showNewProject, setShowNewProject] = useState(false);
-      const [newProjectName, setNewProjectName] = useState('');
-
-      const createProject = () => {
-        if (!newProjectName.trim()) return;
-        const newProject = {
-          id: Date.now().toString(),
-          name: newProjectName,
-          context: {},
-          createdAt: new Date().toISOString(),
-        };
-        setProjects((prev) => [newProject, ...prev]);
-        setCurrentProject(newProject);
-        setNewProjectName('');
-        setShowNewProject(false);
-        setCurrentView('workflow');
-      };
-
-      const deleteProject = (id) => {
-        setProjects((prev) => prev.filter(p => p.id !== id));
-      };
-
+    // ============================================
+    // PROJECTS VIEW
+    // ============================================
+    const ProjectsView = ({ projects, deleteProject, setCurrentProject, setCurrentView, loadingProjects }) => {
+      const [showNew, setShowNew] = useState(false);
+      const [name, setName] = useState('');
       return (
         <div>
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '32px' }} className="animate-fade-in">
-            <div>
-              <h1 style={styles.h1}>My Projects</h1>
-              <p style={{ color: 'var(--text-secondary)' }}>Manage your app development projects</p>
-            </div>
-            <Button variant="primary" onClick={() => setShowNewProject(true)}>
-              <Icons.Plus /> New Project
-            </Button>
+            <div><h1 style={styles.h1}>My Projects</h1><p style={{ color: 'var(--text-secondary)' }}>Manage your app development projects</p></div>
           </div>
-
-          {showNewProject && (
-            <div style={{ ...styles.card, marginBottom: '24px' }} className="animate-fade-in">
-              <h3 style={{ ...styles.h2, marginBottom: '16px' }}>Create New Project</h3>
-              <div style={{ display: 'flex', gap: '12px' }}>
-                <div style={{ flex: 1 }}>
-                  <Input placeholder="Project name" value={newProjectName} onChange={setNewProjectName} style={{ marginBottom: 0 }} />
-                </div>
-                <Button variant="primary" onClick={createProject}>Create</Button>
-                <Button variant="secondary" onClick={() => setShowNewProject(false)}>Cancel</Button>
-              </div>
-            </div>
-          )}
-
-          {projects.length === 0 ? (
+          {loadingProjects ? (
+            <div style={{ textAlign: 'center', padding: '64px', color: 'var(--text-muted)' }}><Icons.Loader /></div>
+          ) : projects.length === 0 ? (
             <div style={{ ...styles.card, textAlign: 'center', padding: '64px' }} className="animate-fade-in stagger-1">
               <div style={{ color: 'var(--text-muted)', marginBottom: '16px' }}><Icons.Folder /></div>
               <h3 style={styles.h3}>No projects yet</h3>
-              <p style={{ color: 'var(--text-secondary)', marginTop: '8px' }}>Create your first project to start organizing your work</p>
             </div>
           ) : (
             <div style={{ ...styles.grid, gridTemplateColumns: 'repeat(2, 1fr)' }}>
               {projects.map((project, idx) => {
-                const completedStages = AGENTS.filter(a => project.context?.[a.id]).length;
+                const completed = AGENTS.filter(a => project.context?.[a.id]).length;
                 return (
                   <div key={project.id} style={styles.card} className={`animate-fade-in stagger-${Math.min(idx + 1, 6)}`}>
                     <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between' }}>
-                      <div 
-                        style={{ cursor: 'pointer', flex: 1 }}
-                        onClick={() => {
-                          setCurrentProject(project);
-                          setCurrentView('workflow');
-                        }}
-                      >
+                      <div style={{ cursor: 'pointer', flex: 1 }} onClick={() => { setCurrentProject(project); setCurrentView('workflow'); }}>
                         <h3 style={styles.h3}>{project.name}</h3>
-                        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>
-                          {completedStages}/{AGENTS.length} stages • Created {new Date(project.createdAt).toLocaleDateString()}
-                        </p>
+                        <p style={{ fontSize: '13px', color: 'var(--text-muted)', marginTop: '4px' }}>{completed}/{AGENTS.length} stages • {new Date(project.created_at).toLocaleDateString()}</p>
                       </div>
-                      <Button variant="ghost" size="sm" onClick={() => deleteProject(project.id)} style={{ color: 'var(--error)' }}>
-                        <Icons.Trash />
-                      </Button>
+                      <Button variant="ghost" size="sm" onClick={() => deleteProject(project.id)} style={{ color: 'var(--error)' }}><Icons.Trash /></Button>
                     </div>
                   </div>
                 );
@@ -1785,154 +889,118 @@ Please provide:
       );
     };
 
-    // Settings View
-    const SettingsView = ({ skillLevel, setSkillLevel }) => {
-      return (
-        <div>
-          <div className="animate-fade-in">
-            <h1 style={styles.h1}>Settings</h1>
-            <p style={{ color: 'var(--text-secondary)', marginBottom: '48px' }}>Configure your preferences</p>
-          </div>
-
-          <div style={{ maxWidth: '600px' }}>
-            <div style={styles.card} className="animate-fade-in stagger-1">
-              <h3 style={{ ...styles.h2, marginBottom: '8px' }}>Skill Level</h3>
-              <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px' }}>
-                Affects how detailed the AI explanations will be
-              </p>
-              <SkillLevelSelector selected={skillLevel} onSelect={setSkillLevel} />
-            </div>
+    // ============================================
+    // SETTINGS VIEW
+    // ============================================
+    const SettingsView = ({ skillLevel, setSkillLevel }) => (
+      <div>
+        <div className="animate-fade-in"><h1 style={styles.h1}>Settings</h1><p style={{ color: 'var(--text-secondary)', marginBottom: '48px' }}>Configure your preferences</p></div>
+        <div style={{ maxWidth: '600px' }}>
+          <div style={styles.card} className="animate-fade-in stagger-1">
+            <h3 style={{ ...styles.h2, marginBottom: '8px' }}>Skill Level</h3>
+            <p style={{ color: 'var(--text-secondary)', fontSize: '14px', marginBottom: '24px' }}>Affects how detailed the AI explanations will be</p>
+            <SkillLevelSelector selected={skillLevel} onSelect={setSkillLevel} />
           </div>
         </div>
-      );
-    };
+      </div>
+    );
 
     // ============================================
     // MAIN APP
     // ============================================
     const App = () => {
       const [user, setUser] = useState(null);
+      const [loading, setLoading] = useState(true);
       const [currentView, setCurrentView] = useState('dashboard');
-      const [skillLevel, setSkillLevel] = useState('intermediate');
+      const [skillLevel, setSkillLevel] = useState(localStorage.getItem('ai-app-helper-skill-level') || 'intermediate');
       const [projects, setProjects] = useState([]);
       const [currentProject, setCurrentProject] = useState(null);
+      const [loadingProjects, setLoadingProjects] = useState(false);
 
-      // Load from localStorage
+      // Check for existing session on load
       useEffect(() => {
-        const storedSkillLevel = localStorage.getItem('ai-app-helper-skill-level');
-        const storedProjects = localStorage.getItem('ai-app-helper-projects');
-        if (storedSkillLevel) setSkillLevel(storedSkillLevel);
-        if (storedProjects) {
-          const parsed = JSON.parse(storedProjects);
-          setProjects(parsed);
-        }
+        supabase.auth.getSession().then(({ data: { session } }) => {
+          setUser(session?.user ?? null);
+          setLoading(false);
+        });
+        const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
+          setUser(session?.user ?? null);
+        });
+        return () => subscription.unsubscribe();
       }, []);
 
-      // Save to localStorage
+      // Load projects from Supabase when user logs in
       useEffect(() => {
-        localStorage.setItem('ai-app-helper-skill-level', skillLevel);
-      }, [skillLevel]);
+        if (!user) { setProjects([]); return; }
+        setLoadingProjects(true);
+        supabase.from('projects').select('*').eq('user_id', user.id).order('created_at', { ascending: false })
+          .then(({ data, error }) => {
+            if (!error && data) setProjects(data);
+            setLoadingProjects(false);
+          });
+      }, [user]);
 
-      useEffect(() => {
-        localStorage.setItem('ai-app-helper-projects', JSON.stringify(projects));
-      }, [projects]);
+      // Save skill level
+      useEffect(() => { localStorage.setItem('ai-app-helper-skill-level', skillLevel); }, [skillLevel]);
 
-      const createProject = (name) => {
-        const newProject = {
-          id: Date.now().toString(),
-          name,
-          context: {},
-          createdAt: new Date().toISOString(),
-        };
-        setProjects((prev) => [newProject, ...prev]);
-        setCurrentProject(newProject);
-        setCurrentView('workflow');
+      const createProject = async (name) => {
+        const { data, error } = await supabase.from('projects').insert({ user_id: user.id, name, context: {} }).select().single();
+        if (!error && data) {
+          setProjects(prev => [data, ...prev]);
+          setCurrentProject(data);
+          setCurrentView('workflow');
+        }
       };
 
-      const updateProject = (updatedProject) => {
-        setProjects((prev) => prev.map(p => p.id === updatedProject.id ? updatedProject : p));
-        setCurrentProject(updatedProject);
+      const updateProject = async (updated) => {
+        const { error } = await supabase.from('projects').update({ context: updated.context, updated_at: new Date().toISOString() }).eq('id', updated.id);
+        if (!error) {
+          setProjects(prev => prev.map(p => p.id === updated.id ? updated : p));
+          setCurrentProject(updated);
+        }
+      };
+
+      const deleteProject = async (id) => {
+        const { error } = await supabase.from('projects').delete().eq('id', id);
+        if (!error) {
+          setProjects(prev => prev.filter(p => p.id !== id));
+          if (currentProject?.id === id) { setCurrentProject(null); setCurrentView('dashboard'); }
+        }
       };
 
       const handleLogout = async () => {
-        if (supabase) await supabase.auth.signOut();
+        await supabase.auth.signOut();
         setUser(null);
         setCurrentProject(null);
         setCurrentView('dashboard');
       };
 
-      if (!user) {
-        return <AuthScreen onAuth={setUser} />;
-      }
+      if (loading) return (
+        <div style={{ minHeight: '100vh', display: 'flex', alignItems: 'center', justifyContent: 'center', background: 'var(--bg-primary)' }}>
+          <div style={{ textAlign: 'center', color: 'var(--text-muted)' }}><Icons.Loader /><p style={{ marginTop: '16px' }}>Loading...</p></div>
+        </div>
+      );
+
+      if (!user) return <AuthScreen onAuth={setUser} />;
 
       const agentMatch = currentView.match(/^agent-(.+)$/);
-      const activeAgent = agentMatch ? AGENTS.find((a) => a.id === agentMatch[1]) : null;
+      const activeAgent = agentMatch ? AGENTS.find(a => a.id === agentMatch[1]) : null;
 
       return (
         <div style={styles.container}>
           <div style={styles.main}>
-            <Sidebar
-              currentView={currentView}
-              setCurrentView={setCurrentView}
-              currentProject={currentProject}
-              user={user}
-              onLogout={handleLogout}
-            />
-
+            <Sidebar currentView={currentView} setCurrentView={setCurrentView} currentProject={currentProject} user={user} onLogout={handleLogout} />
             <main style={styles.content}>
-              {currentView === 'dashboard' && (
-                <Dashboard 
-                  setCurrentView={setCurrentView} 
-                  projects={projects} 
-                  setCurrentProject={setCurrentProject}
-                  createProject={createProject}
-                />
-              )}
-
-              {currentView === 'projects' && (
-                <ProjectsView 
-                  projects={projects} 
-                  setProjects={setProjects}
-                  setCurrentProject={setCurrentProject}
-                  setCurrentView={setCurrentView}
-                />
-              )}
-
-              {currentView === 'workflow' && currentProject && (
-                <WorkflowView 
-                  project={currentProject}
-                  updateProject={updateProject}
-                  setCurrentView={setCurrentView}
-                  skillLevel={skillLevel}
-                />
-              )}
-
-              {currentView === 'settings' && (
-                <SettingsView
-                  skillLevel={skillLevel}
-                  setSkillLevel={setSkillLevel}
-                />
-              )}
-
-              {activeAgent && currentProject && (
-                <AgentView
-                  agent={activeAgent}
-                  project={currentProject}
-                  updateProject={updateProject}
-                  skillLevel={skillLevel}
-                  setCurrentView={setCurrentView}
-                />
-              )}
-
+              {currentView === 'dashboard' && <Dashboard setCurrentView={setCurrentView} projects={projects} setCurrentProject={setCurrentProject} createProject={createProject} loadingProjects={loadingProjects} />}
+              {currentView === 'projects' && <ProjectsView projects={projects} deleteProject={deleteProject} setCurrentProject={setCurrentProject} setCurrentView={setCurrentView} loadingProjects={loadingProjects} />}
+              {currentView === 'workflow' && currentProject && <WorkflowView project={currentProject} setCurrentView={setCurrentView} />}
+              {currentView === 'settings' && <SettingsView skillLevel={skillLevel} setSkillLevel={setSkillLevel} />}
+              {activeAgent && currentProject && <AgentView agent={activeAgent} project={currentProject} updateProject={updateProject} skillLevel={skillLevel} setCurrentView={setCurrentView} />}
               {activeAgent && !currentProject && (
                 <div style={{ textAlign: 'center', padding: '64px' }}>
                   <h2 style={styles.h2}>No project selected</h2>
-                  <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>
-                    Create or select a project first to use the agents.
-                  </p>
-                  <Button variant="primary" onClick={() => setCurrentView('dashboard')}>
-                    Go to Dashboard
-                  </Button>
+                  <p style={{ color: 'var(--text-secondary)', marginBottom: '24px' }}>Create or select a project first.</p>
+                  <Button variant="primary" onClick={() => setCurrentView('dashboard')}>Go to Dashboard</Button>
                 </div>
               )}
             </main>
