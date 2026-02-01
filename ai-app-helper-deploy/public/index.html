@@ -942,6 +942,133 @@
     );
 
     // ============================================
+    // LANDING PAGE
+    // ============================================
+    const LandingPage = ({ onAuth }) => {
+      const [showAuth, setShowAuth] = useState(false);
+
+      if (showAuth) return <AuthScreen onAuth={onAuth} />;
+
+      const agents = [
+        { icon: Icons.Lightbulb, color: '#f59e0b', bg: 'rgba(245, 158, 11, 0.15)', name: 'Idea Brainstorming', desc: 'Transform rough concepts into refined, viable app ideas' },
+        { icon: Icons.List, color: '#22c55e', bg: 'rgba(34, 197, 94, 0.15)', name: 'Feature Planning', desc: 'Organize features into MVP, secondary, and future phases' },
+        { icon: Icons.Layout, color: '#6366f1', bg: 'rgba(99, 102, 241, 0.15)', name: 'UI Design', desc: 'Generate wireframes and visual layout descriptions' },
+        { icon: Icons.Cpu, color: '#8b5cf6', bg: 'rgba(139, 92, 246, 0.15)', name: 'Architecture', desc: 'Get tech stack and system design recommendations' },
+        { icon: Icons.Code, color: '#ec4899', bg: 'rgba(236, 72, 153, 0.15)', name: 'Code Generation', desc: 'Generate working code and project structure' },
+        { icon: Icons.Calendar, color: '#06b6d4', bg: 'rgba(6, 182, 212, 0.15)', name: 'Project Management', desc: 'Create tasks, milestones, and realistic timelines' },
+      ];
+
+      return (
+        <div style={{ minHeight: '100vh', background: 'var(--bg-primary)' }}>
+          {/* Nav */}
+          <nav style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '20px 48px', borderBottom: '1px solid var(--border)' }}>
+            <div style={{ ...styles.logoText, fontSize: '22px' }}>AI App Helper</div>
+            <div style={{ display: 'flex', gap: '12px' }}>
+              <Button variant="ghost" onClick={() => setShowAuth(true)}>Sign In</Button>
+              <Button variant="primary" onClick={() => setShowAuth(true)}>Get Started Free</Button>
+            </div>
+          </nav>
+
+          {/* Hero */}
+          <section style={{ textAlign: 'center', padding: '100px 48px 80px', maxWidth: '900px', margin: '0 auto' }} className="animate-fade-in">
+            <div style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', padding: '8px 16px', background: 'var(--accent-muted)', borderRadius: '100px', fontSize: '13px', fontWeight: 600, color: 'var(--accent)', marginBottom: '24px' }}>
+              <Icons.Sparkles /> Powered by AI
+            </div>
+            <h1 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '72px', fontWeight: 400, letterSpacing: '-0.03em', lineHeight: 1.05, marginBottom: '24px' }}>
+              Build your app idea<br />
+              <span style={{ fontStyle: 'italic', background: 'var(--gradient-1)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent' }}>from concept to code</span>
+            </h1>
+            <p style={{ fontSize: '20px', color: 'var(--text-secondary)', maxWidth: '600px', margin: '0 auto 40px', lineHeight: 1.6 }}>
+              6 AI-powered agents guide you through every step of app development — brainstorming, planning, design, architecture, coding, and project management.
+            </p>
+            <div style={{ display: 'flex', gap: '16px', justifyContent: 'center' }}>
+              <Button variant="primary" size="lg" onClick={() => setShowAuth(true)}>
+                <Icons.ArrowRight /> Start Building — It's Free
+              </Button>
+            </div>
+          </section>
+
+          {/* How it works */}
+          <section style={{ padding: '80px 48px', maxWidth: '1100px', margin: '0 auto' }}>
+            <div style={{ textAlign: 'center', marginBottom: '64px' }} className="animate-fade-in">
+              <h2 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '44px', fontWeight: 400, letterSpacing: '-0.02em', marginBottom: '16px' }}>
+                How it works
+              </h2>
+              <p style={{ fontSize: '18px', color: 'var(--text-secondary)', maxWidth: '500px', margin: '0 auto' }}>
+                Each agent builds on the previous one, creating a connected workflow that turns your idea into a complete plan.
+              </p>
+            </div>
+
+            {/* Agent pipeline visual */}
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+              {agents.map((a, idx) => {
+                const Icon = a.icon;
+                return (
+                  <div key={idx} style={{ ...styles.card, padding: '32px', position: 'relative' }} className={`animate-fade-in stagger-${Math.min(idx + 1, 6)}`}>
+                    <div style={{ position: 'absolute', top: '16px', right: '16px', fontSize: '13px', fontWeight: 700, color: 'var(--text-muted)' }}>
+                      {String(idx + 1).padStart(2, '0')}
+                    </div>
+                    <div style={{ width: '52px', height: '52px', borderRadius: 'var(--radius-md)', background: a.bg, color: a.color, display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: '20px' }}>
+                      <Icon />
+                    </div>
+                    <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{a.name}</h3>
+                    <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{a.desc}</p>
+                  </div>
+                );
+              })}
+            </div>
+          </section>
+
+          {/* Features */}
+          <section style={{ padding: '80px 48px', borderTop: '1px solid var(--border)' }}>
+            <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+              <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr 1fr', gap: '48px' }}>
+                {[
+                  { title: 'Connected Workflow', desc: 'Each agent passes context to the next, so your architecture matches your features and your code matches your design.', icon: Icons.Workflow },
+                  { title: 'Skill Level Adaptation', desc: 'Set your experience level and get explanations tailored to you — from beginner-friendly to advanced technical specs.', icon: Icons.User },
+                  { title: 'Cloud Saved Projects', desc: 'Your projects are saved securely in the cloud. Pick up where you left off on any device.', icon: Icons.Folder },
+                ].map((f, idx) => {
+                  const Icon = f.icon;
+                  return (
+                    <div key={idx} style={{ textAlign: 'center' }} className={`animate-fade-in stagger-${idx + 1}`}>
+                      <div style={{ width: '48px', height: '48px', borderRadius: '50%', background: 'var(--accent-muted)', color: 'var(--accent)', display: 'flex', alignItems: 'center', justifyContent: 'center', margin: '0 auto 16px' }}>
+                        <Icon />
+                      </div>
+                      <h3 style={{ fontSize: '18px', fontWeight: 600, marginBottom: '8px' }}>{f.title}</h3>
+                      <p style={{ fontSize: '14px', color: 'var(--text-secondary)', lineHeight: 1.6 }}>{f.desc}</p>
+                    </div>
+                  );
+                })}
+              </div>
+            </div>
+          </section>
+
+          {/* CTA */}
+          <section style={{ padding: '80px 48px', textAlign: 'center', borderTop: '1px solid var(--border)' }}>
+            <div style={{ maxWidth: '600px', margin: '0 auto' }} className="animate-fade-in">
+              <h2 style={{ fontFamily: "'Instrument Serif', Georgia, serif", fontSize: '44px', fontWeight: 400, letterSpacing: '-0.02em', marginBottom: '16px' }}>
+                Ready to build?
+              </h2>
+              <p style={{ fontSize: '18px', color: 'var(--text-secondary)', marginBottom: '32px' }}>
+                Start turning your app idea into reality — no coding experience required.
+              </p>
+              <Button variant="primary" size="lg" onClick={() => setShowAuth(true)}>
+                <Icons.Sparkles /> Get Started Free
+              </Button>
+            </div>
+          </section>
+
+          {/* Footer */}
+          <footer style={{ padding: '32px 48px', borderTop: '1px solid var(--border)', textAlign: 'center' }}>
+            <p style={{ fontSize: '13px', color: 'var(--text-muted)' }}>
+              AI App Helper — Built with Claude AI
+            </p>
+          </footer>
+        </div>
+      );
+    };
+
+    // ============================================
     // MAIN APP
     // ============================================
     const App = () => {
@@ -1017,7 +1144,7 @@
         </div>
       );
 
-      if (!user) return <AuthScreen onAuth={setUser} />;
+      if (!user) return <LandingPage onAuth={setUser} />;
 
       const agentMatch = currentView.match(/^agent-(.+)$/);
       const activeAgent = agentMatch ? AGENTS.find(a => a.id === agentMatch[1]) : null;
