@@ -764,14 +764,39 @@
     // ============================================
     // AGENT VIEW
     // ============================================
-    const AgentView = ({ agent, project, updateProject, skillLevel, setCurrentView }) => {
+    const DAILY_LIMIT = 10;
+
+    const AgentView = ({ agent, project, updateProject, skillLevel, setCurrentView, user }) => {
       const [formData, setFormData] = useState({});
       const [response, setResponse] = useState(project.context?.[agent.id] || '');
       const [loading, setLoading] = useState(false);
       const [error, setError] = useState('');
       const [viewingAgent, setViewingAgent] = useState(null);
+      const [usageCount, setUsageCount] = useState(0);
+      const [usageLoaded, setUsageLoaded] = useState(false);
+
+      // Load today's usage count for this specific agent
+      useEffect(() => {
+        if (!user) return;
+        const today = new Date();
+        today.setHours(0, 0, 0, 0);
+        supabase.from('usage').select('id', { count: 'exact' })
+          .eq('user_id', user.id)
+          .eq('agent_id', agent.id)
+          .gte('created_at', today.toISOString())
+          .then(({ count }) => {
+            setUsageCount(count || 0);
+            setUsageLoaded(true);
+          });
+      }, [user, agent.id]);
 
       const handleSubmit = async () => {
+        // Check usage limit
+        if (usageCount >= DAILY_LIMIT) {
+          setError(`Daily limit reached (${DAILY_LIMIT} per agent per day). Try again tomorrow!`);
+          return;
+        }
+
         setLoading(true); setError(''); setResponse('');
         const ctx = project.context || {};
         const systemPrompt = agent.buildPrompt(skillLevel);
@@ -787,6 +812,10 @@
           const output = data.content[0].text;
           setResponse(output);
           updateProject({ ...project, context: { ...project.context, [agent.id]: output } });
+
+          // Record usage with agent_id
+          await supabase.from('usage').insert({ user_id: user.id, agent_id: agent.id });
+          setUsageCount(prev => prev + 1);
         } catch (err) {
           setError(err.message === 'Failed to fetch' ? 'Network error. Please try again.' : err.message);
         } finally { setLoading(false); }
@@ -812,7 +841,14 @@
               <div style={styles.card}>
                 <h3 style={{ ...styles.h2, marginBottom: '24px' }}>Input</h3>
                 {agent.fields.map(f => <Input key={f.name} label={f.label} type={f.type} placeholder={f.placeholder} options={f.options} value={formData[f.name] || ''} onChange={v => setFormData(p => ({ ...p, [f.name]: v }))} />)}
-                <Button variant="primary" loading={loading} onClick={handleSubmit} style={{ marginTop: '8px' }}><Icons.Sparkles /> {hasOutput ? 'Regenerate' : 'Generate'}</Button>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginTop: '8px' }}>
+                  <Button variant="primary" loading={loading} onClick={handleSubmit} disabled={usageCount >= DAILY_LIMIT}><Icons.Sparkles /> {hasOutput ? 'Regenerate' : 'Generate'}</Button>
+                  {usageLoaded && (
+                    <span style={{ fontSize: '13px', color: usageCount >= DAILY_LIMIT ? 'var(--error)' : 'var(--text-muted)' }}>
+                      {DAILY_LIMIT - usageCount} / {DAILY_LIMIT} generations left today
+                    </span>
+                  )}
+                </div>
                 {error && <div style={{ marginTop: '16px', padding: '12px 16px', background: 'rgba(239, 68, 68, 0.15)', border: '1px solid var(--error)', borderRadius: 'var(--radius-md)', color: 'var(--error)', fontSize: '13px' }}>{error}</div>}
               </div>
             </div>
@@ -995,7 +1031,7 @@
               {currentView === 'projects' && <ProjectsView projects={projects} deleteProject={deleteProject} setCurrentProject={setCurrentProject} setCurrentView={setCurrentView} loadingProjects={loadingProjects} />}
               {currentView === 'workflow' && currentProject && <WorkflowView project={currentProject} setCurrentView={setCurrentView} />}
               {currentView === 'settings' && <SettingsView skillLevel={skillLevel} setSkillLevel={setSkillLevel} />}
-              {activeAgent && currentProject && <AgentView agent={activeAgent} project={currentProject} updateProject={updateProject} skillLevel={skillLevel} setCurrentView={setCurrentView} />}
+              {activeAgent && currentProject && <AgentView agent={activeAgent} project={currentProject} updateProject={updateProject} skillLevel={skillLevel} setCurrentView={setCurrentView} user={user} />}
               {activeAgent && !currentProject && (
                 <div style={{ textAlign: 'center', padding: '64px' }}>
                   <h2 style={styles.h2}>No project selected</h2>
